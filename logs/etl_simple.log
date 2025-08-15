@@ -1,0 +1,24 @@
+2025-08-15 13:24:35,964 - INFO - [PIPELINE] Démarrage ETL depuis data/raw
+2025-08-15 13:24:36,013 - INFO - [OK] Connexion base de données établie
+2025-08-15 13:24:36,014 - INFO - [PIPELINE] 4 fichier(s) à traiter
+2025-08-15 13:24:36,014 - INFO - [PIPELINE] === Traitement aircraft_catalog_icao_2025.csv ===
+2025-08-15 13:24:36,014 - INFO - [EXTRACT] Lecture fichier: data\raw\aircraft_catalog_icao_2025.csv
+2025-08-15 13:24:36,017 - ERROR - [ERROR] Lecture fichier échouée: Could not determine delimiter
+2025-08-15 13:24:36,017 - WARNING - [PIPELINE] Aucune donnée extraite de data\raw\aircraft_catalog_icao_2025.csv
+2025-08-15 13:24:36,017 - INFO - [PIPELINE] === Traitement emission_factors_icao_2025.csv ===
+2025-08-15 13:24:36,018 - INFO - [EXTRACT] Lecture fichier: data\raw\emission_factors_icao_2025.csv
+2025-08-15 13:24:36,018 - ERROR - [ERROR] Lecture fichier échouée: Could not determine delimiter
+2025-08-15 13:24:36,019 - WARNING - [PIPELINE] Aucune donnée extraite de data\raw\emission_factors_icao_2025.csv
+2025-08-15 13:24:36,019 - INFO - [PIPELINE] === Traitement flights_data_2025_08_01_to_30days.csv ===
+2025-08-15 13:24:36,019 - INFO - [EXTRACT] Lecture fichier: data\raw\flights_data_2025_08_01_to_30days.csv
+2025-08-15 13:24:36,054 - INFO - [EXTRACT] 5400 lignes lues, type: flights
+2025-08-15 13:24:36,059 - INFO - [TRANSFORM] Transformation données de vol
+2025-08-15 13:24:36,064 - INFO - [TRANSFORM] 5400 lignes transformées
+2025-08-15 13:24:36,541 - INFO - [LOAD] 5400 vols insérés dans temp_flights_etl
+2025-08-15 13:24:36,542 - INFO - [PIPELINE] flights_data_2025_08_01_to_30days.csv: 5400 lues, 5400 insérées
+2025-08-15 13:24:36,544 - INFO - [PIPELINE] === Traitement weather_data_sample_3days.csv ===
+2025-08-15 13:24:36,544 - INFO - [EXTRACT] Lecture fichier: data\raw\weather_data_sample_3days.csv
+2025-08-15 13:24:36,546 - INFO - [EXTRACT] 5 lignes lues, type: weather
+2025-08-15 13:24:36,557 - INFO - [LOAD] 5 lignes insérées pour weather
+2025-08-15 13:24:36,557 - INFO - [PIPELINE] weather_data_sample_3days.csv: 5 lues, 5 insérées
+2025-08-15 13:24:36,559 - INFO - [PIPELINE] Connexion fermée

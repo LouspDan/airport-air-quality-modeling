@@ -87,3 +87,24 @@ DETAIL:  Key (version)=(V002) already exists.
 2025-08-15 09:16:29,776 - INFO - [OK] Extensions trouvees: ['postgis', 'uuid-ossp']
 2025-08-15 09:16:29,776 - INFO - [OK] Integrite de la base verifiee
 2025-08-15 09:16:29,776 - INFO - [INFO] Connexion fermee
+2025-08-15 14:57:17,414 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 14:57:17,422 - INFO - [OK] Table de migration creee/verifiee
+2025-08-15 14:57:17,429 - INFO - [INFO] Migration en attente: V003__create_staging_schema.sql
+2025-08-15 14:57:17,429 - INFO - [INFO] 1 migration(s) a appliquer
+2025-08-15 14:57:17,431 - INFO - [RUNNING] Execution migration V003: create staging schema
+2025-08-15 14:57:17,663 - INFO - [OK] Migration V003 appliquee avec succes (226ms)
+2025-08-15 14:57:17,663 - INFO - [OK] Toutes les migrations appliquees avec succes (1/1)
+2025-08-15 14:57:17,664 - INFO - [OK] Migrations executees avec succes
+2025-08-15 14:57:17,664 - INFO - [INFO] Connexion fermee
+2025-08-15 14:57:18,979 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 14:57:18,980 - INFO - [INFO] Verification integrite base de donnees...
+2025-08-15 14:57:18,998 - INFO - [OK] Schemas trouves: ['analytics', 'air_quality', 'airport']
+2025-08-15 14:57:18,999 - INFO - [OK] Tables trouvees: 15
+2025-08-15 14:57:19,004 - INFO - [OK] Extensions trouvees: ['postgis', 'uuid-ossp']
+2025-08-15 14:57:19,005 - INFO - [OK] Integrite de la base verifiee
+2025-08-15 14:57:19,005 - INFO - [INFO] Connexion fermee
+2025-08-15 14:59:45,724 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 14:59:45,726 - INFO - [OK] Table de migration creee/verifiee
+2025-08-15 14:59:45,730 - INFO - [OK] Aucune migration en attente
+2025-08-15 14:59:45,730 - INFO - [OK] Migrations executees avec succes
+2025-08-15 14:59:45,731 - INFO - [INFO] Connexion fermee
