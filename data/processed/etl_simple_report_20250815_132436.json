@@ -1,0 +1,10 @@
+{
+  "execution_timestamp": "2025-08-15T13:24:36.557749",
+  "summary": {
+    "files_processed": 2,
+    "total_rows_read": 5405,
+    "total_rows_inserted": 5405,
+    "errors": []
+  },
+  "success_rate": 100.0
+}
