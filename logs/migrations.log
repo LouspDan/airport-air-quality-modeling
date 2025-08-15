@@ -15,3 +15,75 @@
 2025-08-15 08:34:03,009 - INFO - [OK] Toutes les migrations appliquees avec succes (1/1)
 2025-08-15 08:34:03,009 - INFO - [OK] Migrations executees avec succes
 2025-08-15 08:34:03,009 - INFO - [INFO] Connexion fermee
+2025-08-15 08:47:18,406 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 08:47:18,406 - INFO - [INFO] Verification integrite base de donnees...
+2025-08-15 08:47:18,410 - INFO - [OK] Schemas trouves: ['analytics', 'air_quality', 'airport']
+2025-08-15 08:47:18,410 - INFO - [OK] Tables trouvees: 10
+2025-08-15 08:47:18,411 - INFO - [OK] Extensions trouvees: ['postgis', 'uuid-ossp']
+2025-08-15 08:47:18,411 - INFO - [OK] Integrite de la base verifiee
+2025-08-15 08:47:18,412 - INFO - [INFO] Connexion fermee
+2025-08-15 09:07:41,887 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 09:07:41,887 - INFO - STATUT DES MIGRATIONS:
+2025-08-15 09:07:41,891 - INFO - [INFO] Migration en attente: V002__aircraft_emission_factors.sql
+2025-08-15 09:07:41,894 - INFO - [INFO] Connexion fermee
+2025-08-15 09:08:07,466 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 09:08:07,466 - INFO - STATUT DES MIGRATIONS:
+2025-08-15 09:08:07,468 - INFO - [INFO] Migration en attente: V002__aircraft_emission_factors.sql
+2025-08-15 09:08:07,470 - INFO - [INFO] Connexion fermee
+2025-08-15 09:08:08,489 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 09:08:08,491 - INFO - [OK] Table de migration creee/verifiee
+2025-08-15 09:08:08,500 - INFO - [INFO] Migration en attente: V002__aircraft_emission_factors.sql
+2025-08-15 09:08:08,502 - INFO - [INFO] 1 migration(s) a appliquer
+2025-08-15 09:08:08,555 - INFO - [RUNNING] Execution migration V002: aircraft emission factors
+2025-08-15 09:08:08,697 - ERROR - [ERROR] Echec migration V002: column fe.regime_moteur_icao does not exist
+LINE 317: JOIN airport.phase_vol_standard phs ON fe.regime_moteur_icao...
+                                                 ^
+HINT:  Perhaps you meant to reference the column "phs.regime_moteur_icao".
+
+2025-08-15 09:08:08,698 - ERROR - [ERROR] Arret sur echec migration: V002__aircraft_emission_factors.sql
+2025-08-15 09:08:08,698 - WARNING - [WARN] Migrations partiellement appliquees (0/1)
+2025-08-15 09:08:08,698 - ERROR - [ERROR] Erreur lors de l'execution des migrations
+2025-08-15 09:08:08,698 - INFO - [INFO] Connexion fermee
+2025-08-15 09:08:09,661 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 09:08:09,661 - INFO - [INFO] Verification integrite base de donnees...
+2025-08-15 09:08:09,665 - INFO - [OK] Schemas trouves: ['analytics', 'air_quality', 'airport']
+2025-08-15 09:08:09,666 - INFO - [OK] Tables trouvees: 10
+2025-08-15 09:08:09,668 - INFO - [OK] Extensions trouvees: ['postgis', 'uuid-ossp']
+2025-08-15 09:08:09,668 - INFO - [OK] Integrite de la base verifiee
+2025-08-15 09:08:09,668 - INFO - [INFO] Connexion fermee
+2025-08-15 09:09:30,268 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 09:09:30,269 - INFO - STATUT DES MIGRATIONS:
+2025-08-15 09:09:30,272 - INFO - [INFO] Migration en attente: V002__aircraft_emission_factors.sql
+2025-08-15 09:09:30,275 - INFO - [INFO] Connexion fermee
+2025-08-15 09:10:24,045 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 09:10:24,053 - INFO - [OK] Table de migration creee/verifiee
+2025-08-15 09:10:24,057 - INFO - [INFO] Migration en attente: V002__aircraft_emission_factors.sql
+2025-08-15 09:10:24,057 - INFO - [INFO] 1 migration(s) a appliquer
+2025-08-15 09:10:24,059 - INFO - [RUNNING] Execution migration V002: aircraft emission factors
+2025-08-15 09:10:24,210 - ERROR - [ERROR] Erreur execution migration V002__aircraft_emission_factors.sql: duplicate key value violates unique constraint "schema_version_version_key"
+DETAIL:  Key (version)=(V002) already exists.
+
+2025-08-15 09:10:24,210 - ERROR - [ERROR] Arret sur echec migration: V002__aircraft_emission_factors.sql
+2025-08-15 09:10:24,210 - WARNING - [WARN] Migrations partiellement appliquees (0/1)
+2025-08-15 09:10:24,210 - ERROR - [ERROR] Erreur lors de l'execution des migrations
+2025-08-15 09:10:24,211 - INFO - [INFO] Connexion fermee
+2025-08-15 09:15:38,418 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 09:15:38,418 - INFO - STATUT DES MIGRATIONS:
+2025-08-15 09:15:38,420 - INFO - [INFO] Migration en attente: V002__aircraft_emission_factors.sql
+2025-08-15 09:15:38,422 - INFO - [INFO] Connexion fermee
+2025-08-15 09:16:06,740 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 09:16:06,741 - INFO - [OK] Table de migration creee/verifiee
+2025-08-15 09:16:06,743 - INFO - [INFO] Migration en attente: V002__aircraft_emission_factors.sql
+2025-08-15 09:16:06,743 - INFO - [INFO] 1 migration(s) a appliquer
+2025-08-15 09:16:06,754 - INFO - [RUNNING] Execution migration V002: aircraft emission factors
+2025-08-15 09:16:06,848 - INFO - [OK] Migration V002 appliquee avec succes (92ms)
+2025-08-15 09:16:06,848 - INFO - [OK] Toutes les migrations appliquees avec succes (1/1)
+2025-08-15 09:16:06,848 - INFO - [OK] Migrations executees avec succes
+2025-08-15 09:16:06,848 - INFO - [INFO] Connexion fermee
+2025-08-15 09:16:29,771 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 09:16:29,771 - INFO - [INFO] Verification integrite base de donnees...
+2025-08-15 09:16:29,775 - INFO - [OK] Schemas trouves: ['analytics', 'air_quality', 'airport']
+2025-08-15 09:16:29,775 - INFO - [OK] Tables trouvees: 15
+2025-08-15 09:16:29,776 - INFO - [OK] Extensions trouvees: ['postgis', 'uuid-ossp']
+2025-08-15 09:16:29,776 - INFO - [OK] Integrite de la base verifiee
+2025-08-15 09:16:29,776 - INFO - [INFO] Connexion fermee
