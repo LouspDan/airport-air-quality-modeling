@@ -1,0 +1,6 @@
+station_id,measurement_time,temperature_c,humidity_percent,pressure_hpa,wind_speed_ms,wind_direction_deg,visibility_m,precipitation_mm,cloud_cover_percent,weather_conditions,data_quality,source_system
+PVE_METEO_01,2025-08-01 00:00:00,18.2,75,1015.3,8.5,240,10000,0.0,40,Clear,Valid,METEO_FRANCE_API
+PVE_METEO_01,2025-08-01 01:00:00,17.8,78,1015.1,7.2,235,10000,0.0,45,Clear,Valid,METEO_FRANCE_API
+PVE_METEO_01,2025-08-01 02:00:00,17.1,82,1014.8,6.8,230,8000,0.0,50,Partly Cloudy,Valid,METEO_FRANCE_API
+PVE_METEO_02,2025-08-01 00:00:00,18.5,73,1015.5,9.1,245,10000,0.0,38,Clear,Valid,METEO_FRANCE_API
+PVE_METEO_02,2025-08-01 01:00:00,18.0,76,1015.2,8.3,240,10000,0.0,42,Clear,Valid,METEO_FRANCE_API
