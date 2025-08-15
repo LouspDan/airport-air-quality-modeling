@@ -1,0 +1,154 @@
+version: '3.8'
+
+services:
+  # =====================================================
+  # PostgreSQL avec PostGIS pour données géospatiales
+  # =====================================================
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: airport_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-airport_air_quality}
+      POSTGRES_USER: ${POSTGRES_USER:-airport_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-airport_password}
+      # Configuration PostgreSQL
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+      # Optimisations mémoire
+      POSTGRES_SHARED_BUFFERS: ${POSTGRES_SHARED_BUFFERS:-256MB}
+      POSTGRES_EFFECTIVE_CACHE_SIZE: ${POSTGRES_EFFECTIVE_CACHE_SIZE:-1GB}
+      POSTGRES_MAX_CONNECTIONS: ${POSTGRES_MAX_CONNECTIONS:-100}
+    ports:
+      - "5433:5432"  # Port 5433 pour éviter conflit avec autres projets
+    volumes:
+      # Volume persistant pour les données
+      - airport_postgres_data:/var/lib/postgresql/data
+      # Scripts d'initialisation (migrations seront ajoutées plus tard)
+      - ./database/migrations:/docker-entrypoint-initdb.d:ro
+      # Configuration PostgreSQL personnalisée
+      - ./deployment/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    networks:
+      - airport_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-airport_user} -d ${POSTGRES_DB:-airport_air_quality}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command: >
+      postgres
+      -c shared_buffers=${POSTGRES_SHARED_BUFFERS:-256MB}
+      -c effective_cache_size=${POSTGRES_EFFECTIVE_CACHE_SIZE:-1GB}
+      -c max_connections=${POSTGRES_MAX_CONNECTIONS:-100}
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+
+  # =====================================================
+  # pgAdmin pour administration graphique
+  # =====================================================
+  pgadmin:
+    image: dpage/pgadmin4:7.8
+    container_name: airport_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@airport.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    ports:
+      - "8081:80"  # Port 8081 pour éviter conflit avec Adminer sur 8080
+    volumes:
+      # Volume persistant pour la configuration pgAdmin
+      - airport_pgadmin_data:/var/lib/pgadmin
+      # Configuration automatique du serveur PostgreSQL
+      - ./deployment/pgadmin_servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - airport_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/misc/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # =====================================================
+  # Redis pour cache et sessions (optionnel)
+  # =====================================================
+  redis:
+    image: redis:7-alpine
+    container_name: airport_redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"  # Port 6380 pour éviter conflit
+    volumes:
+      # Volume persistant pour les données Redis
+      - airport_redis_data:/data
+      # Configuration Redis
+      - ./deployment/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - airport_network
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # =====================================================
+  # Application API (sera développée plus tard)
+  # =====================================================
+  # api:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: airport_api
+  #   restart: unless-stopped
+  #   environment:
+  #     - DB_HOST=postgres
+  #     - DB_PORT=5432
+  #     - DB_NAME=${POSTGRES_DB}
+  #     - DB_USER=${POSTGRES_USER}
+  #     - DB_PASSWORD=${POSTGRES_PASSWORD}
+  #     - REDIS_HOST=redis
+  #     - REDIS_PORT=6379
+  #   ports:
+  #     - "${API_PORT:-8000}:8000"
+  #   volumes:
+  #     - ./src:/app/src:ro
+  #   networks:
+  #     - airport_network
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+
+# =====================================================
+# Volumes persistants
+# =====================================================
+volumes:
+  airport_postgres_data:
+    driver: local
+    name: airport_postgres_data
+  airport_pgadmin_data:
+    driver: local
+    name: airport_pgadmin_data
+  airport_redis_data:
+    driver: local
+    name: airport_redis_data
+
+# =====================================================
+# Network isolé pour le projet
+# =====================================================
+networks:
+  airport_network:
+    driver: bridge
+    name: airport_network
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

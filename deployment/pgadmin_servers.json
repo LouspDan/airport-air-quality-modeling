@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Airport PostgreSQL",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "airport_air_quality",
+      "Username": "airport_user",
+      "SSLMode": "prefer",
+      "Comment": "Serveur PostgreSQL pour le projet Airport Air Quality"
+    }
+  }
+}

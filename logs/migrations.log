@@ -1,0 +1,17 @@
+2025-08-15 08:07:36,416 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 08:07:36,416 - INFO - STATUT DES MIGRATIONS:
+2025-08-15 08:07:36,419 - ERROR - [ERROR] Dossier migrations introuvable: D:\PROJET\airport-air-quality-modeling\scripts\database\migrations
+2025-08-15 08:07:36,420 - INFO - [INFO] Connexion fermee
+2025-08-15 08:31:58,990 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 08:31:58,991 - INFO - STATUT DES MIGRATIONS:
+2025-08-15 08:31:58,996 - INFO - [INFO] Migration en attente: V001__create_initial_schema.sql
+2025-08-15 08:31:58,999 - INFO - [INFO] Connexion fermee
+2025-08-15 08:34:02,505 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-15 08:34:02,510 - INFO - [OK] Table de migration creee/verifiee
+2025-08-15 08:34:02,514 - INFO - [INFO] Migration en attente: V001__create_initial_schema.sql
+2025-08-15 08:34:02,515 - INFO - [INFO] 1 migration(s) a appliquer
+2025-08-15 08:34:02,515 - INFO - [RUNNING] Execution migration V001: create initial schema
+2025-08-15 08:34:03,009 - INFO - [OK] Migration V001 appliquee avec succes (489ms)
+2025-08-15 08:34:03,009 - INFO - [OK] Toutes les migrations appliquees avec succes (1/1)
+2025-08-15 08:34:03,009 - INFO - [OK] Migrations executees avec succes
+2025-08-15 08:34:03,009 - INFO - [INFO] Connexion fermee
