@@ -1,2 +1,0 @@
--- =====================================================
--- Migration V001: Creation du schema initial
