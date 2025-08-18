@@ -142,6 +142,19 @@ Développement d'un système complet de **modélisation des émissions** et **su
 
 Voici une représentation simplifiée du modèle relationnel utilisé :  
 
+<div align="center">
+  
+  <!-- Version cliquable pour agrandir -->
+  <a href="./docs/mld_detailed_schema.svg">
+    <img src="./docs/mld_detailed_schema.svg" 
+         alt="Modèle Logique de Données - Cliquez pour agrandir" 
+         width="90%">
+  </a>
+  
+  <p><i>Cliquez sur le schéma pour voir en taille réelle</i></p>
+</div>
+
+
 ![MLD simplifié](docs/mld_detailed_schema.svg)
 Le projet utilise une base PostgreSQL + PostGIS pour stocker :
 - ✈️ Données avions & moteurs (`aircraft`, `engine`)
