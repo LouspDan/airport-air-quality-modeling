@@ -138,7 +138,7 @@ Développement d'un système complet de **modélisation des émissions** et **su
 └── 📄 requirements.txt
 ```
 ---
-
+```bash
 ## 🚀 **Démarrage Rapide**
 
 ### **Prérequis**
@@ -169,7 +169,7 @@ pip install -r requirements.txt
 # 5. Initialisation base de données
 python scripts/setup_database.py --init
 python scripts/generate_sample_data.py
-
+```
 ### 📖 **Références méthodologiques**
 
 - ICAO Engine Emissions Databank – facteurs d’émission (cycle LTO)
