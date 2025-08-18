@@ -108,3 +108,36 @@ DETAIL:  Key (version)=(V002) already exists.
 2025-08-15 14:59:45,730 - INFO - [OK] Aucune migration en attente
 2025-08-15 14:59:45,730 - INFO - [OK] Migrations executees avec succes
 2025-08-15 14:59:45,731 - INFO - [INFO] Connexion fermee
+2025-08-18 14:46:18,279 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-18 14:46:18,290 - INFO - [OK] Table de migration creee/verifiee
+2025-08-18 14:46:18,299 - INFO - [INFO] Migration en attente: V004__create_noise_schema.sql
+2025-08-18 14:46:18,299 - INFO - [INFO] 1 migration(s) a appliquer
+2025-08-18 14:46:18,314 - INFO - [RUNNING] Execution migration V004: create noise schema
+2025-08-18 14:46:18,475 - INFO - [OK] Migration V004 appliquee avec succes (157ms)
+2025-08-18 14:46:18,476 - INFO - [OK] Toutes les migrations appliquees avec succes (1/1)
+2025-08-18 14:46:18,476 - INFO - [OK] Migrations executees avec succes
+2025-08-18 14:46:18,476 - INFO - [INFO] Connexion fermee
+2025-08-18 15:12:24,032 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-18 15:12:24,037 - INFO - [OK] Table de migration creee/verifiee
+2025-08-18 15:12:24,042 - INFO - [INFO] Migration en attente: V005__noise_functions_and_seed.sql
+2025-08-18 15:12:24,042 - INFO - [INFO] 1 migration(s) a appliquer
+2025-08-18 15:12:24,043 - INFO - [RUNNING] Execution migration V005: noise functions and seed
+2025-08-18 15:12:24,078 - ERROR - [ERROR] Erreur execution migration V005__noise_functions_and_seed.sql: current transaction is aborted, commands ignored until end of transaction block
+
+2025-08-18 15:12:24,079 - ERROR - [ERROR] Arret sur echec migration: V005__noise_functions_and_seed.sql
+2025-08-18 15:12:24,079 - WARNING - [WARN] Migrations partiellement appliquees (0/1)
+2025-08-18 15:12:24,080 - ERROR - [ERROR] Erreur lors de l'execution des migrations
+2025-08-18 15:12:24,081 - INFO - [INFO] Connexion fermee
+2025-08-18 15:37:33,117 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-18 15:37:33,119 - INFO - [OK] Table de migration creee/verifiee
+2025-08-18 15:37:33,125 - INFO - [INFO] Migration en attente: V005__noise_functions_and_seed.sql
+2025-08-18 15:37:33,126 - INFO - [INFO] 1 migration(s) a appliquer
+2025-08-18 15:37:33,126 - INFO - [RUNNING] Execution migration V005: noise functions and seed
+2025-08-18 15:37:33,158 - ERROR - [ERROR] Echec migration V005: unrecognized GET DIAGNOSTICS item at or near "n"
+LINE 135:     GET DIAGNOSTICS n = n + ROW_COUNT;
+                                  ^
+
+2025-08-18 15:37:33,158 - ERROR - [ERROR] Arret sur echec migration: V005__noise_functions_and_seed.sql
+2025-08-18 15:37:33,158 - WARNING - [WARN] Migrations partiellement appliquees (0/1)
+2025-08-18 15:37:33,159 - ERROR - [ERROR] Erreur lors de l'execution des migrations
+2025-08-18 15:37:33,159 - INFO - [INFO] Connexion fermee
