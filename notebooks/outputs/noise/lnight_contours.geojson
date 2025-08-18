@@ -1,0 +1,113 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "level_db": 50,
+        "indicator": "lnight",
+        "color": "#90EE90",
+        "description": "Zone Lnight > 50 dB"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.2,
+              48.7
+            ],
+            [
+              2.5,
+              48.7
+            ],
+            [
+              2.5,
+              49.0
+            ],
+            [
+              2.2,
+              49.0
+            ],
+            [
+              2.2,
+              48.7
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level_db": 55,
+        "indicator": "lnight",
+        "color": "#FFFF00",
+        "description": "Zone Lnight > 55 dB"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.25,
+              48.75
+            ],
+            [
+              2.45,
+              48.75
+            ],
+            [
+              2.45,
+              48.95
+            ],
+            [
+              2.25,
+              48.95
+            ],
+            [
+              2.25,
+              48.75
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level_db": 60,
+        "indicator": "lnight",
+        "color": "#FFA500",
+        "description": "Zone Lnight > 60 dB"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.3000000000000003,
+              48.800000000000004
+            ],
+            [
+              2.4,
+              48.800000000000004
+            ],
+            [
+              2.4,
+              48.9
+            ],
+            [
+              2.3000000000000003,
+              48.9
+            ],
+            [
+              2.3000000000000003,
+              48.800000000000004
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

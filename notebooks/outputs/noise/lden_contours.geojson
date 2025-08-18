@@ -1,0 +1,149 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "level_db": 55,
+        "indicator": "lden",
+        "color": "#FFFF00",
+        "description": "Zone Lden > 55 dB"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.15,
+              48.65
+            ],
+            [
+              2.5500000000000003,
+              48.65
+            ],
+            [
+              2.5500000000000003,
+              49.050000000000004
+            ],
+            [
+              2.15,
+              49.050000000000004
+            ],
+            [
+              2.15,
+              48.65
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level_db": 60,
+        "indicator": "lden",
+        "color": "#FFA500",
+        "description": "Zone Lden > 60 dB"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.2,
+              48.7
+            ],
+            [
+              2.5,
+              48.7
+            ],
+            [
+              2.5,
+              49.0
+            ],
+            [
+              2.2,
+              49.0
+            ],
+            [
+              2.2,
+              48.7
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level_db": 65,
+        "indicator": "lden",
+        "color": "#FF6B6B",
+        "description": "Zone Lden > 65 dB"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.25,
+              48.75
+            ],
+            [
+              2.45,
+              48.75
+            ],
+            [
+              2.45,
+              48.95
+            ],
+            [
+              2.25,
+              48.95
+            ],
+            [
+              2.25,
+              48.75
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level_db": 70,
+        "indicator": "lden",
+        "color": "#FF0000",
+        "description": "Zone Lden > 70 dB"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.3000000000000003,
+              48.800000000000004
+            ],
+            [
+              2.4,
+              48.800000000000004
+            ],
+            [
+              2.4,
+              48.9
+            ],
+            [
+              2.3000000000000003,
+              48.9
+            ],
+            [
+              2.3000000000000003,
+              48.800000000000004
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

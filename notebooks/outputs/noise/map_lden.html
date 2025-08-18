@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carte Bruit Lden - Aéroport</title>
+    <meta charset="utf-8" />
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        .info { background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .legend { display: flex; gap: 20px; margin: 20px 0; }
+        .legend-item { display: flex; align-items: center; gap: 10px; }
+        .legend-color { width: 30px; height: 20px; border: 1px solid #333; }
+        svg { border: 2px solid #bdc3c7; border-radius: 5px; background: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛩️ Carte de Bruit Aéroportuaire - Indicateur Lden</h1>
+
+        <div class="info">
+            <strong>Méthodologie:</strong> ECAC Doc 29 (version simplifiée)<br>
+            <strong>Date:</strong> 18/08/2025 17:47<br>
+            <strong>Période:</strong> Moyenne pondérée 24h (jour/soir/nuit)<br>
+            <strong>Mouvements modélisés:</strong> 200 vols/jour
+        </div>
+
+        <svg width="800" height="600" viewBox="0 0 800 600">
+            <!-- Grille de fond -->
+            <defs>
+                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                    <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e0e0e0" stroke-width="1"/>
+                </pattern>
+            </defs>
+            <rect width="800" height="600" fill="url(#grid)" />
+
+            <!-- Zones de bruit avec dégradé -->
+            <rect x="100" y="100" width="600" height="400" fill="#FF0000" opacity="0.4" rx="5"/>
+            <rect x="175" y="150" width="450" height="300" fill="#FF6B6B" opacity="0.5" rx="5"/>
+            <rect x="250" y="200" width="300" height="200" fill="#FFA500" opacity="0.6" rx="5"/>
+            <rect x="325" y="250" width="150" height="100" fill="#FFFF00" opacity="0.7" rx="5"/>
+
+            <!-- Pistes -->
+            <line x1="200" y1="300" x2="600" y2="300" stroke="#333" stroke-width="3" stroke-dasharray="10,5"/>
+            <text x="610" y="305" font-size="12" fill="#333">09L/27R</text>
+
+            <!-- Aéroport -->
+            <circle cx="400" cy="300" r="15" fill="#2c3e50"/>
+            <text x="400" y="305" font-size="12" fill="white" text-anchor="middle">ADP</text>
+            <text x="400" y="330" font-size="14" font-weight="bold" text-anchor="middle">Aéroport</text>
+
+            <!-- Échelle -->
+            <line x1="50" y1="550" x2="150" y2="550" stroke="#333" stroke-width="2"/>
+            <text x="100" y="570" font-size="12" text-anchor="middle">1 km</text>
+        </svg>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #FF0000; opacity: 0.7;"></div>
+                <span>&gt; 70 dB - Zone très fortement exposée</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #FF6B6B; opacity: 0.7;"></div>
+                <span>65-70 dB - Zone fortement exposée</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #FFA500; opacity: 0.7;"></div>
+                <span>60-65 dB - Zone modérément exposée</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #FFFF00; opacity: 0.7;"></div>
+                <span>55-60 dB - Zone faiblement exposée</span>
+            </div>
+        </div>
+
+        <div class="info">
+            <strong>Note:</strong> Cette carte est une démonstration technique. Pour une étude 
+            opérationnelle, utiliser les outils certifiés (AEDT, INM) avec les données ANP officielles.
+        </div>
+    </div>
+</body>
+</html>
