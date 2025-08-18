@@ -138,6 +138,34 @@ Développement d'un système complet de **modélisation des émissions** et **su
 └── 📄 requirements.txt
 ```
 ---
+## 📊 Base de données/Modèle logique de donées
+
+Voici une représentation simplifiée du modèle relationnel utilisé :  
+
+<div align="center">
+  
+  <!-- Version cliquable pour agrandir -->
+  <a href="./docs/mld_detailed_schema.svg">
+    <img src="./docs/mld_detailed_schema.svg" 
+         alt="Modèle Logique de Données - Cliquez pour agrandir" 
+         width="90%">
+  </a>
+  
+  <p><i>Cliquez sur le schéma pour voir en taille réelle</i></p>
+</div>
+
+
+![MLD simplifié](docs/mld_detailed_schema.svg)
+Le projet utilise une base PostgreSQL + PostGIS pour stocker :
+- ✈️ Données avions & moteurs (`aircraft`, `engine`)
+- 🛫 Mouvements et trajectoires (`flight_movement`, `trajectory_point`)
+- 🌍 Grille spatiale & cellules (`grid_cell`)
+- 📈 Résultats calculés : émissions (`emissions_result`), bruit (`noise_result`)
+- 🛰️ Mesures réelles : stations (`station`, `air_quality_measurement`)
+
+👉 La documentation complète du schéma est disponible ici :  
+[📑 Introspection de la base (db_introspection.md)](docs/db_introspection.md)
+
 ```bash
 ## 🚀 **Démarrage Rapide**
 
