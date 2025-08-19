@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Métier - Système de Surveillance Environnementale Aéroportuaire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .version-info {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+        }
+
+        .schema-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .tab {
+            flex: 1;
+            min-width: 150px;
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab.active {
+            background: white;
+            color: #2a5298;
+            border-bottom: 3px solid #2a5298;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab-icon {
+            font-size: 1.2rem;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .schema-section {
+            display: none;
+        }
+
+        .schema-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .schema-intro {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .schema-intro h2 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .schema-intro p {
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        .key-concepts {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .key-concepts h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .key-concepts ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .key-concepts li {
+            padding: 5px 0;
+            color: #856404;
+        }
+
+        .key-concepts li:before {
+            content: "▸ ";
+            color: #ffc107;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .table-doc {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .table-doc:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #2a5298;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .table-icon {
+            font-size: 2rem;
+            opacity: 0.9;
+        }
+
+        .table-title {
+            flex: 1;
+        }
+
+        .table-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .table-purpose {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+
+        .table-body {
+            padding: 25px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: #2a5298;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .business-context {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .business-context p {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .fields-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .field-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            align-items: start;
+        }
+
+        .field-item:hover {
+            background: #e9ecef;
+        }
+
+        .field-name {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        .field-desc {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .pk-field {
+            border-left: 3px solid #ffc107;
+        }
+
+        .fk-field {
+            border-left: 3px solid #17a2b8;
+        }
+
+        .relations-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .relations-box h4 {
+            color: #004085;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .relation-item {
+            padding: 5px 0;
+            color: #004085;
+            font-size: 0.9rem;
+        }
+
+        .relation-item:before {
+            content: "🔗 ";
+            margin-right: 5px;
+        }
+
+        .use-cases {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .use-cases h4 {
+            color: #155724;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .use-case-item {
+            padding: 5px 0;
+            color: #155724;
+            font-size: 0.9rem;
+        }
+
+        .use-case-item:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .regulatory-note {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .regulatory-note h4 {
+            color: #721c24;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .regulatory-note p {
+            color: #721c24;
+            font-size: 0.9rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        .glossary {
+            background: #fff;
+            border: 2px solid #dee2e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .glossary h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+
+        .glossary-item {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .glossary-term {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .glossary-def {
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .field-item {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .glossary-item {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📖 Documentation Métier du Modèle de Données</h1>
+            <p>Guide complet des concepts et structures de données du système de surveillance environnementale</p>
+            <span class="version-info">Version 4.0 | Migration V003 Acoustique | OACI Annexe 16</span>
+        </div>
+
+        <div class="schema-tabs">
+            <button class="tab active" onclick="showSchema('airport')">
+                <span class="tab-icon">✈️</span>
+                <span>AIRPORT</span>
+            </button>
+            <button class="tab" onclick="showSchema('air_quality')">
+                <span class="tab-icon">🌍</span>
+                <span>AIR_QUALITY</span>
+            </button>
+            <button class="tab" onclick="showSchema('acoustique')">
+                <span class="tab-icon">🔊</span>
+                <span>ACOUSTIQUE</span>
+            </button>
+            <button class="tab" onclick="showSchema('analytics')">
+                <span class="tab-icon">📊</span>
+                <span>ANALYTICS</span>
+            </button>
+        </div>
+
+        <div class="content">
+            <!-- SCHÉMA AIRPORT -->
+            <div id="airport" class="schema-section active">
+                <div class="schema-intro">
+                    <h2>✈️ Schéma AIRPORT - Gestion des Opérations Aéroportuaires</h2>
+                    <p>
+                        Le schéma AIRPORT constitue le cœur opérationnel du système. Il modélise l'ensemble des entités 
+                        nécessaires à la gestion du trafic aérien et des infrastructures aéroportuaires. Ce schéma est 
+                        conçu selon les standards de l'OACI (Organisation de l'Aviation Civile Internationale) et intègre 
+                        les spécificités réglementaires européennes.
+                    </p>
+                </div>
+
+                <div class="key-concepts">
+                    <h3>🔑 Concepts Métiers Clés</h3>
+                    <ul>
+                        <li><strong>Cycle LTO (Landing and Take-Off)</strong> : Phases standardisées d'un vol sous 3000 pieds</li>
+                        <li><strong>Codes IATA/ICAO</strong> : Identifiants internationaux normalisés</li>
+                        <li><strong>Wake Turbulence Category</strong> : Classification selon la turbulence de sillage</li>
+                        <li><strong>Phase de vol</strong> : Découpage opérationnel pour calculs d'émissions</li>
+                    </ul>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">9</div>
+                        <div class="stat-label">Tables principales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">14</div>
+                        <div class="stat-label">Relations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Conformité OACI</div>
+                    </div>
+                </div>
+
+                <!-- Table AEROPORT -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">🏢</span>
+                        <div class="table-title">
+                            <div class="table-name">AEROPORT</div>
+                            <div class="table-purpose">Référentiel central des infrastructures aéroportuaires</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Rôle :</strong> Table maître définissant chaque aéroport avec ses caractéristiques géographiques 
+                                    et opérationnelles. Sert de point d'ancrage pour toutes les mesures environnementales.
+                                </p>
+                                <p>
+                                    <strong>Importance :</strong> Les coordonnées GPS permettent les calculs de dispersion atmosphérique, 
+                                    l'altitude influence les performances des aéronefs et les émissions.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🔧 Champs Principaux</div>
+                            <div class="fields-grid">
+                                <div class="field-item pk-field">
+                                    <span class="field-name">id_aeroport</span>
+                                    <span class="field-desc">Identifiant unique UUID garantissant l'unicité mondiale</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">code_iata</span>
+                                    <span class="field-desc">Code 3 lettres (ex: CDG) utilisé commercialement</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">code_icao</span>
+                                    <span class="field-desc">Code 4 lettres (ex: LFPG) standard aviation civile</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">coordonnees_gps</span>
+                                    <span class="field-desc">Point géographique PostGIS pour calculs spatiaux</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">altitude_m</span>
+                                    <span class="field-desc">Élévation influençant pression atmosphérique et performances</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relations-box">
+                            <h4>Relations avec autres tables</h4>
+                            <div class="relation-item">Relie à TERMINAL (1:N) - Un aéroport possède plusieurs terminaux</div>
+                            <div class="relation-item">Relie à PISTE (1:N) - Un aéroport possède plusieurs pistes</div>
+                            <div class="relation-item">Relie à VOL (1:N) - Point d'origine et destination des vols</div>
+                        </div>
+
+                        <div class="use-cases">
+                            <h4>Cas d'Usage</h4>
+                            <div class="use-case-item">Géolocalisation des sources d'émission</div>
+                            <div class="use-case-item">Calcul des zones d'impact environnemental</div>
+                            <div class="use-case-item">Reporting réglementaire par plateforme</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table VOL -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">✈️</span>
+                        <div class="table-title">
+                            <div class="table-name">VOL</div>
+                            <div class="table-purpose">Entité centrale des mouvements aériens</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Rôle :</strong> Enregistre chaque mouvement d'aéronef avec ses caractéristiques opérationnelles. 
+                                    Table pivot pour le calcul des émissions et l'analyse du trafic.
+                                </p>
+                                <p>
+                                    <strong>Cycle de vie :</strong> Un vol passe par différents statuts (Programmé → En vol → Atterri) 
+                                    et génère des données à chaque phase pour les calculs environnementaux.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🔧 Champs Principaux</div>
+                            <div class="fields-grid">
+                                <div class="field-item pk-field">
+                                    <span class="field-name">id_vol</span>
+                                    <span class="field-desc">Identifiant unique pour traçabilité complète</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">numero_vol</span>
+                                    <span class="field-desc">Code commercial (ex: AF1234) visible passagers</span>
+                                </div>
+                                <div class="field-item fk-field">
+                                    <span class="field-name">id_type_aeronef</span>
+                                    <span class="field-desc">Lien vers caractéristiques techniques avion</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">nb_passagers</span>
+                                    <span class="field-desc">Charge utile influençant consommation</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">poids_carburant_kg</span>
+                                    <span class="field-desc">Masse kérosène pour calcul émissions CO2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relations-box">
+                            <h4>Relations avec autres tables</h4>
+                            <div class="relation-item">Lié à COMPAGNIE (N:1) - Opérateur du vol</div>
+                            <div class="relation-item">Lié à AERONEF_TYPE (N:1) - Type d'appareil utilisé</div>
+                            <div class="relation-item">Lié à PHASE_VOL (1:N) - Décomposition en phases LTO</div>
+                            <div class="relation-item">Lié à EMISSION_CALCULEE (1:N) - Émissions générées</div>
+                        </div>
+
+                        <div class="regulatory-note">
+                            <h4>⚖️ Conformité Réglementaire</h4>
+                            <p>
+                                Les données de vol sont soumises au règlement EU 598/2014 sur les restrictions d'exploitation. 
+                                La traçabilité complète est requise pour les audits DGAC et les rapports ACI Europe.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table PHASE_VOL -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">📊</span>
+                        <div class="table-title">
+                            <div class="table-name">PHASE_VOL</div>
+                            <div class="table-purpose">Décomposition LTO pour calculs d'émissions</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Concept LTO :</strong> Le cycle Landing and Take-Off définit les phases sous 3000 pieds 
+                                    où les émissions impactent directement la qualité de l'air locale.
+                                </p>
+                                <p>
+                                    <strong>Phases standards OACI :</strong>
+                                    • Taxi-out (7 min) • Take-off (0.7 min) • Climb-out (2.2 min)
+                                    • Approach (4 min) • Landing (0.5 min) • Taxi-in (7 min)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🔧 Champs Principaux</div>
+                            <div class="fields-grid">
+                                <div class="field-item">
+                                    <span class="field-name">type_phase</span>
+                                    <span class="field-desc">Classification OACI (taxi, take-off, climb...)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">duree_minutes</span>
+                                    <span class="field-desc">Temps en phase, base du calcul émissions</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">regime_moteur_%</span>
+                                    <span class="field-desc">Puissance moteur (7% taxi, 100% take-off)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">consommation_fuel_kg</span>
+                                    <span class="field-desc">Kérosène brûlé durant la phase</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">position_gps</span>
+                                    <span class="field-desc">Localisation pour dispersion atmosphérique</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="use-cases">
+                            <h4>Applications Métier</h4>
+                            <div class="use-case-item">Calcul précis des émissions par phase</div>
+                            <div class="use-case-item">Optimisation des temps de roulage</div>
+                            <div class="use-case-item">Analyse des hot-spots d'émissions</div>
+                            <div class="use-case-item">Conformité inventaire OACI/DEFRA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table AERONEF_TYPE -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">🛩️</span>
+                        <div class="table-title">
+                            <div class="table-name">AERONEF_TYPE</div>
+                            <div class="table-purpose">Référentiel des types d'aéronefs</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Classification OACI :</strong> Chaque type d'aéronef possède une désignation unique 
+                                    (ex: A320 pour Airbus A320) utilisée mondialement pour l'identification.
+                                </p>
+                                <p>
+                                    <strong>Wake Category :</strong> Classification selon la masse maximale au décollage (MTOW) :
+                                    Light < 7t, Medium < 136t, Heavy < 560t, Super ≥ 560t (A380)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="relations-box">
+                            <h4>Relations critiques</h4>
+                            <div class="relation-item">Lié à PROFIL_ACOUSTIQUE_AERONEF - Caractéristiques bruit</div>
+                            <div class="relation-item">Lié à MOTEUR_TYPE via AERONEF_MOTEUR - Configuration moteurs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHÉMA AIR_QUALITY -->
+            <div id="air_quality" class="schema-section">
+                <div class="schema-intro">
+                    <h2>🌍 Schéma AIR_QUALITY - Surveillance de la Qualité de l'Air</h2>
+                    <p>
+                        Le schéma AIR_QUALITY gère l'ensemble du processus de surveillance et de calcul des émissions atmosphériques. 
+                        Il intègre les méthodologies de calcul certifiées (ICAO, DEFRA, EPA) et assure la traçabilité complète 
+                        des polluants émis par l'activité aéroportuaire.
+                    </p>
+                </div>
+
+                <div class="key-concepts">
+                    <h3>🔑 Concepts Métiers Clés</h3>
+                    <ul>
+                        <li><strong>Facteurs d'émission</strong> : Coefficients certifiés par type de moteur et régime</li>
+                        <li><strong>Polluants surveillés</strong> : CO2, NOx, PM10, PM2.5, SOx, HC, CO</li>
+                        <li><strong>Méthodologie Tier</strong> : Niveaux de précision (Tier 1 simple, Tier 3A avancé)</li>
+                        <li><strong>Dispersion atmosphérique</strong> : Modélisation de la propagation des polluants</li>
+                    </ul>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Tables principales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Polluants suivis</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Surveillance continue</div>
+                    </div>
+                </div>
+
+                <!-- Table STATION_MESURE -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">📡</span>
+                        <div class="table-title">
+                            <div class="table-name">STATION_MESURE</div>
+                            <div class="table-purpose">Réseau de capteurs qualité de l'air</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Réseau de surveillance :</strong> Stations automatiques mesurant en continu les concentrations 
+                                    de polluants atmosphériques selon la directive 2008/50/CE sur la qualité de l'air ambiant.
+                                </p>
+                                <p>
+                                    <strong>Types de stations :</strong> Trafic (proximité pistes), Fond urbain (impact global), 
+                                    Industrielle (zones fret), Périmétrique (limites aéroport)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🔧 Champs Principaux</div>
+                            <div class="fields-grid">
+                                <div class="field-item">
+                                    <span class="field-name">type_station</span>
+                                    <span class="field-desc">Classification selon directive EU (trafic/fond/industrielle)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">polluants_mesures[]</span>
+                                    <span class="field-desc">Array des polluants surveillés (NO2, PM10, O3...)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">methode_mesure</span>
+                                    <span class="field-desc">Technologie utilisée (chimiluminescence, gravimétrie...)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">incertitude_%</span>
+                                    <span class="field-desc">Marge d'erreur certifiée (max 15% pour NO2)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="regulatory-note">
+                            <h4>⚖️ Exigences Réglementaires</h4>
+                            <p>
+                                Conformité obligatoire avec EN 14211 (NOx), EN 12341 (PM10), EN 14625 (O3). 
+                                Transmission horaire vers base PREV'AIR nationale. Seuils d'alerte selon arrêté préfectoral.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table FACTEUR_EMISSION_ICAO -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">🔥</span>
+                        <div class="table-title">
+                            <div class="table-name">FACTEUR_EMISSION_ICAO</div>
+                            <div class="table-purpose">Base de données des émissions certifiées moteurs</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Source ICAO :</strong> Facteurs d'émission issus de la banque de données ICAO Engine Emissions 
+                                    Databank, mise à jour trimestriellement avec les certifications des nouveaux moteurs.
+                                </p>
+                                <p>
+                                    <strong>Régimes moteur standards :</strong>
+                                    • Idle/Taxi: 7% • Approach: 30% • Climb-out: 85% • Take-off: 100%
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🔧 Données Critiques</div>
+                            <div class="fields-grid">
+                                <div class="field-item">
+                                    <span class="field-name">facteur_nox_g_kg</span>
+                                    <span class="field-desc">Oxydes d'azote en g/kg fuel (critique pour qualité air local)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">facteur_pm_g_kg</span>
+                                    <span class="field-desc">Particules fines, impact sanitaire majeur</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">smoke_number</span>
+                                    <span class="field-desc">Indice de fumée visible (réglementation Chapter 2)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">debit_carburant_kg_s</span>
+                                    <span class="field-desc">Consommation par régime pour calcul total émissions</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="use-cases">
+                            <h4>Applications</h4>
+                            <div class="use-case-item">Calcul inventaire émissions annuel (obligation DGAC)</div>
+                            <div class="use-case-item">Modélisation dispersion pour études d'impact</div>
+                            <div class="use-case-item">Taxe carbone et reporting RSE</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table EMISSION_CALCULEE -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">💨</span>
+                        <div class="table-title">
+                            <div class="table-name">EMISSION_CALCULEE</div>
+                            <div class="table-purpose">Résultats des calculs d'émissions par source</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Méthodologies de calcul :</strong> Application des méthodes certifiées ICAO (Doc 9889), 
+                                    DEFRA GHG Conversion Factors, et EPA AP-42 selon le type de source et le polluant.
+                                </p>
+                                <p>
+                                    <strong>Sources d'émission :</strong> Aéronefs (85%), APU (8%), GSE véhicules sol (5%), 
+                                    Infrastructures (2%). Chaque source a sa méthodologie spécifique.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🔧 Traçabilité des Calculs</div>
+                            <div class="fields-grid">
+                                <div class="field-item">
+                                    <span class="field-name">methode_calcul</span>
+                                    <span class="field-desc">Tier1_ICAO, Tier3A_Advanced, DEFRA_2024...</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">incertitude_calcul_%</span>
+                                    <span class="field-desc">Marge d'erreur selon méthode (5-20%)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">coordonnees_emission</span>
+                                    <span class="field-desc">Point GPS pour modélisation dispersion</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">timestamp_calcul</span>
+                                    <span class="field-desc">Horodatage pour audit trail complet</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHÉMA ACOUSTIQUE -->
+            <div id="acoustique" class="schema-section">
+                <div class="schema-intro">
+                    <h2>🔊 Schéma ACOUSTIQUE - Surveillance du Bruit Aéronautique</h2>
+                    <p>
+                        Le schéma ACOUSTIQUE implémente un système complet de surveillance et modélisation du bruit aéronautique 
+                        conforme à l'OACI Annexe 16 et à la directive européenne 2002/49/CE. Il permet le calcul des indicateurs 
+                        réglementaires Lden/Lnight et la gestion des Plans d'Exposition au Bruit (PEB).
+                    </p>
+                </div>
+
+                <div class="key-concepts">
+                    <h3>🔑 Concepts Métiers Clés</h3>
+                    <ul>
+                        <li><strong>Indicateur Lden</strong> : Level day-evening-night avec pondérations +5dB soir, +10dB nuit</li>
+                        <li><strong>Certification Chapter</strong> : Niveaux de bruit certifiés (Chapter 3, 4, 14)</li>
+                        <li><strong>ECAC Doc 29</strong> : Méthodologie européenne de calcul d'empreinte acoustique</li>
+                        <li><strong>Zones PEB</strong> : A (>70 dB), B (65-70 dB), C (55-65 dB), D (<55 dB)</li>
+                        <li><strong>EPNdB</strong> : Effective Perceived Noise in decibels (métrique OACI)</li>
+                    </ul>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Tables spécialisées</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Monitoring continu</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">±2dB</div>
+                        <div class="stat-label">Précision calculs</div>
+                    </div>
+                </div>
+
+                <!-- Table PROFIL_ACOUSTIQUE_AERONEF -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">📋</span>
+                        <div class="table-title">
+                            <div class="table-name">PROFIL_ACOUSTIQUE_AERONEF</div>
+                            <div class="table-purpose">Caractéristiques acoustiques certifiées par type d'aéronef</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Certification OACI :</strong> Chaque type d'aéronef est certifié selon l'Annexe 16 Volume I 
+                                    avec trois points de mesure : latéral (450m), survol (6.5km), approche (2km du seuil).
+                                </p>
+                                <p>
+                                    <strong>Évolution des normes :</strong> Chapter 2 (interdit EU), Chapter 3 (phase-out progressif), 
+                                    Chapter 4 (standard actuel, -10 EPNdB cumulé), Chapter 14 (nouveau, 2017+, -17 EPNdB).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🔧 Données Acoustiques</div>
+                            <div class="fields-grid">
+                                <div class="field-item">
+                                    <span class="field-name">niveau_certification_epndb</span>
+                                    <span class="field-desc">Niveau certifié en EPNdB (Effective Perceived Noise)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">marge_cumulative_epndb</span>
+                                    <span class="field-desc">Marge par rapport aux limites Chapter (performance acoustique)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">bruit_decollage_dba</span>
+                                    <span class="field-desc">Niveau à 1000m, pleine puissance (85-95 dBA typique)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">frequence_dominante_hz</span>
+                                    <span class="field-desc">Fréquence principale pour absorption atmosphérique</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="regulatory-note">
+                            <h4>⚖️ Cadre Réglementaire</h4>
+                            <p>
+                                Règlement EU 598/2014 sur les restrictions d'exploitation liées au bruit. 
+                                Les aéronefs marginalement conformes Chapter 3 sont progressivement interdits. 
+                                Bonus/malus sur redevances selon performance acoustique.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table STATION_MESURE_BRUIT -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">🎤</span>
+                        <div class="table-title">
+                            <div class="table-name">STATION_MESURE_BRUIT</div>
+                            <div class="table-purpose">Réseau de sonomètres permanents</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Réseau de surveillance :</strong> Sonomètres classe 1 (IEC 61672) positionnés stratégiquement 
+                                    pour capturer l'impact acoustique. Transmission temps réel vers système central.
+                                </p>
+                                <p>
+                                    <strong>Zones réglementaires PEB :</strong> Positionnement dans zones A/B/C du Plan d'Exposition au Bruit 
+                                    pour validation des courbes isophones et suivi des dépassements.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🔧 Paramètres Techniques</div>
+                            <div class="fields-grid">
+                                <div class="field-item">
+                                    <span class="field-name">classe_precision</span>
+                                    <span class="field-desc">Classe 1 (±0.7dB) ou 2 (±1.5dB) selon IEC 61672</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">seuil_declenchement_dba</span>
+                                    <span class="field-desc">Niveau déclenchant enregistrement événement (55-65 dBA)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">hauteur_microphone_m</span>
+                                    <span class="field-desc">Standard 4m ou 6m selon environnement</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">etablissements_sensibles[]</span>
+                                    <span class="field-desc">Écoles, hôpitaux à proximité nécessitant vigilance</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="use-cases">
+                            <h4>Missions</h4>
+                            <div class="use-case-item">Validation conformité trajectoires (procédures antibruit)</div>
+                            <div class="use-case-item">Détection automatique dépassements seuils</div>
+                            <div class="use-case-item">Calcul indicateurs Lden/Lnight réglementaires</div>
+                            <div class="use-case-item">Traitement plaintes riverains avec données factuelles</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table MESURE_BRUIT -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">📊</span>
+                        <div class="table-title">
+                            <div class="table-name">MESURE_BRUIT</div>
+                            <div class="table-purpose">Enregistrements acoustiques et corrélation vol</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Métriques acoustiques :</strong> LAmax (niveau max événement), LAeq (niveau équivalent), 
+                                    LA10/LA90 (indices statistiques), SEL (Sound Exposure Level intégré).
+                                </p>
+                                <p>
+                                    <strong>Corrélation automatique :</strong> Algorithme de rapprochement avec trajectoires radar 
+                                    pour identifier le vol responsable (certitude 0-1 selon critères spatio-temporels).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🔧 Indicateurs Clés</div>
+                            <div class="fields-grid">
+                                <div class="field-item">
+                                    <span class="field-name">lamax_dba</span>
+                                    <span class="field-desc">Pic de bruit de l'événement (seuil alerte >80 dBA nuit)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">duree_evenement_s</span>
+                                    <span class="field-desc">Durée au-dessus du seuil (émergence +10dB)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">correlation_certitude</span>
+                                    <span class="field-desc">Confiance attribution vol (>0.8 = haute certitude)</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">type_evenement</span>
+                                    <span class="field-desc">Classification source (Aéronef/Route/Train/Autre)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table ZONE_EXPOSITION_BRUIT -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">🗺️</span>
+                        <div class="table-title">
+                            <div class="table-name">ZONE_EXPOSITION_BRUIT</div>
+                            <div class="table-purpose">Cartographie réglementaire PEB</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Plan d'Exposition au Bruit :</strong> Document d'urbanisme opposable délimitant les zones 
+                                    de restrictions de construction selon l'exposition sonore prévisionnelle à long terme.
+                                </p>
+                                <p>
+                                    <strong>Zones réglementaires :</strong>
+                                    Zone A (Lden >70) : Inconstructible sauf aéro
+                                    Zone B (65-70) : Habitat interdit
+                                    Zone C (55-65) : Construction limitée avec isolation
+                                    Zone D (50-55) : Information obligatoire
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="regulatory-note">
+                            <h4>⚖️ Impact Urbanistique</h4>
+                            <p>
+                                Code urbanisme L147-5 : Le PEB s'impose aux PLU. Révision quinquennale obligatoire. 
+                                10 millions de riverains concernés en France. Indemnisation possible zone A/B.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHÉMA ANALYTICS -->
+            <div id="analytics" class="schema-section">
+                <div class="schema-intro">
+                    <h2>📊 Schéma ANALYTICS - Audit et Performance</h2>
+                    <p>
+                        Le schéma ANALYTICS assure la traçabilité complète du système et le monitoring des performances. 
+                        Il répond aux exigences d'audit réglementaire et permet l'optimisation continue des processus de calcul.
+                    </p>
+                </div>
+
+                <div class="key-concepts">
+                    <h3>🔑 Concepts Métiers Clés</h3>
+                    <ul>
+                        <li><strong>Audit Trail</strong> : Traçabilité complète pour conformité RGPD et audits DGAC</li>
+                        <li><strong>Performance Monitoring</strong> : Surveillance temps réel des calculs complexes</li>
+                        <li><strong>Data Lineage</strong> : Traçage de l'origine et transformation des données</li>
+                        <li><strong>Compliance Reporting</strong> : Génération automatique rapports réglementaires</li>
+                    </ul>
+                </div>
+
+                <!-- Table AUDIT_LOG -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">📝</span>
+                        <div class="table-title">
+                            <div class="table-name">AUDIT_LOG</div>
+                            <div class="table-purpose">Journal d'audit complet</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>Exigences légales :</strong> Conservation 5 ans minimum pour audits DGAC. 
+                                    Capture automatique par triggers PostgreSQL de toute modification.
+                                </p>
+                                <p>
+                                    <strong>JSONB pour flexibilité :</strong> Stockage des anciennes/nouvelles valeurs en JSONB 
+                                    permettant requêtes complexes et reconstitution d'états antérieurs.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table PERFORMANCE_CALCUL -->
+                <div class="table-doc">
+                    <div class="table-header">
+                        <span class="table-icon">⚡</span>
+                        <div class="table-title">
+                            <div class="table-name">PERFORMANCE_CALCUL</div>
+                            <div class="table-purpose">Métriques de performance système</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="section">
+                            <div class="section-title">📋 Contexte Métier</div>
+                            <div class="business-context">
+                                <p>
+                                    <strong>SLA Monitoring :</strong> Surveillance respect des engagements de service 
+                                    (calculs <5min pour 10000 vols, disponibilité 99.9%).
+                                </p>
+                                <p>
+                                    <strong>Optimisation continue :</strong> Identification des goulots d'étranglement, 
+                                    prédiction besoins ressources, alertes proactives.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Glossaire global -->
+        <div style="padding: 30px;">
+            <div class="glossary">
+                <h3>📖 Glossaire des Termes Techniques</h3>
+                <div class="glossary-item">
+                    <span class="glossary-term">Lden</span>
+                    <span class="glossary-def">Level day-evening-night, indicateur européen de bruit avec pondérations</span>
+                </div>
+                <div class="glossary-item">
+                    <span class="glossary-term">EPNdB</span>
+                    <span class="glossary-def">Effective Perceived Noise in decibels, métrique OACI pour certification</span>
+                </div>
+                <div class="glossary-item">
+                    <span class="glossary-term">LTO Cycle</span>
+                    <span class="glossary-def">Landing and Take-Off, phases sous 3000 pieds pour calculs émissions locales</span>
+                </div>
+                <div class="glossary-item">
+                    <span class="glossary-term">Chapter 3/4/14</span>
+                    <span class="glossary-def">Niveaux de certification acoustique OACI, progressivement plus stricts</span>
+                </div>
+                <div class="glossary-item">
+                    <span class="glossary-term">PEB</span>
+                    <span class="glossary-def">Plan d'Exposition au Bruit, document d'urbanisme réglementaire</span>
+                </div>
+                <div class="glossary-item">
+                    <span class="glossary-term">MTOW</span>
+                    <span class="glossary-def">Maximum Take-Off Weight, masse maximale au décollage certifiée</span>
+                </div>
+                <div class="glossary-item">
+                    <span class="glossary-term">APU</span>
+                    <span class="glossary-def">Auxiliary Power Unit, groupe auxiliaire de puissance (source émissions au sol)</span>
+                </div>
+                <div class="glossary-item">
+                    <span class="glossary-term">GSE</span>
+                    <span class="glossary-def">Ground Support Equipment, véhicules et équipements de piste</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSchema(schemaName) {
+            // Cacher toutes les sections
+            document.querySelectorAll('.schema-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Retirer la classe active de tous les tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Afficher la section sélectionnée
+            document.getElementById(schemaName).classList.add('active');
+            
+            // Activer le tab correspondant
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Animation au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            const tables = document.querySelectorAll('.table-doc');
+            tables.forEach((table, index) => {
+                table.style.opacity = '0';
+                table.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    table.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    table.style.opacity = '1';
+                    table.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

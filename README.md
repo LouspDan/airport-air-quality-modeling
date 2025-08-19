@@ -83,27 +83,32 @@ Développement d'un système complet de **modélisation des émissions** et **su
 │       └── 📄 weather_data_sample_3days.csv
 ├── 📁 database/
 │   ├── 📁 migrations/
-│   │   ├── 📄 .gitkeep
 │   │   ├── 🗄️ V001__create_initial_schema.sql
 │   │   ├── 🗄️ V002__aircraft_emission_factors.sql
-│   │   └── 🗄️ V003__create_staging_schema.sql
+│   │   ├── 🗄️ V003__acoustic_modeling_system.sql
+│   │   └── 🗄️ _V003__create_staging_schema.sql
 │   └── 📁 seed-data/
-│       ├── 📄 .gitkeep
 │       └── 🗄️ test_connection.sql
 ├── 📁 deployment/
-│   ├── 📄 pgadmin_servers.json
-│   └── ⚙️ redis.conf
+│   ├── 📁 postgresql.conf/
 ├── 📁 docs/
+│   ├── 📁 screenshots/
+│   │   ├── 🖼️ dashboard-executive-01.png
+│   │   ├── 🖼️ dashboard-executive-02.png
+│   │   ├── 🖼️ dashboard-operation-01.png
+│   │   └── 🖼️ dashboard-operation-02.png
+│   ├── 📕 MLD-schema.pdf
+│   ├── 🖼️ MLD-schema.png
+│   ├── 🌐 data-model-documentation.html
+│   ├── 📝 db_introspection.md
+│   └── 🌐 mld-schema.html
 ├── 📁 logs/
-│   ├── 📋 etl_pipeline.log 🚫 (auto-hidden)
-│   ├── 📋 etl_simple.log 🚫 (auto-hidden)
-│   └── 📋 migrations.log 🚫 (auto-hidden)
 ├── 📁 notebooks/
 │   ├── 📁 .ipynb_checkpoints/
 │   │   ├── 📓 03_noise_doc29_simplified-checkpoint.ipynb
 │   │   ├── 📓 03_noise_minimal-checkpoint.ipynb
 │   │   └── 📓 03_noise_simplified-checkpoint.ipynb
-│   ├── 📁 otebooks/
+│   ├── 📁 notebooks/
 │   ├── 📁 outputs/
 │   │   ├── 📁 air/
 │   │   └── 📁 noise/
@@ -116,25 +121,22 @@ Développement d'un système complet de **modélisation des émissions** et **su
 │   │       └── 📄 statistics.csv
 │   ├── 📓 03_noise_minimal.ipynb
 │   └── 📓 03_noise_simplified.ipynb
-├── 📁 screenshots/
 ├── 📁 scripts/
-│   ├── 📁 logs/
-│   │   └── 📋 migrations.log 🚫 (auto-hidden)
 │   ├── 🐚 check_setup.sh
 │   ├── 🐍 diagnose_database.py
 │   ├── 🐍 etl_pipeline.py
 │   ├── 🐍 generate_csv_data.py
 │   ├── 🐍 generate_flights_simple.py
+│   ├── 🐍 introspect_to_markdown.py
 │   └── 🐍 run_migrations.py
 ├── 📁 src/
 │   └── 🐍 __init__.py
 ├── 📁 tests/
-│   ├── 🐍 __init__.py
-│   └── 🐍 conftest.py
 ├── 📜 LICENSE
 ├── 📖 README.md
 ├── 🐍 db_config_working.py
 ├── ⚙️ docker-compose.yml
+├── 📄 introspection_result.txt
 └── 📄 requirements.txt
 ```
 ---
@@ -142,20 +144,8 @@ Développement d'un système complet de **modélisation des émissions** et **su
 
 Voici une représentation simplifiée du modèle relationnel utilisé :  
 
-<div align="center">
-  
-  <!-- Version cliquable pour agrandir -->
-  <a href="./docs/mld_detailed_schema.svg">
-    <img src="./docs/mld_detailed_schema.svg" 
-         alt="Modèle Logique de Données - Cliquez pour agrandir" 
-         width="90%">
-  </a>
-  
-  <p><i>Cliquez sur le schéma pour voir en taille réelle</i></p>
-</div>
+![MLD Schema](./docs/MLD-schema.png)
 
-
-![MLD simplifié](docs/mld_detailed_schema.svg)
 Le projet utilise une base PostgreSQL + PostGIS pour stocker :
 - ✈️ Données avions & moteurs (`aircraft`, `engine`)
 - 🛫 Mouvements et trajectoires (`flight_movement`, `trajectory_point`)
