@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLD Complet - Système de Surveillance Environnementale Aéroportuaire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .schema-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 18px;
+            text-align: center;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #6c757d;
+        }
+
+        .tab.active {
+            background: white;
+            color: #495057;
+            border-bottom: 3px solid #007bff;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .schema-content {
+            padding: 25px;
+            min-height: 900px;
+        }
+
+        .schema-section {
+            display: none;
+        }
+
+        .schema-section.active {
+            display: block;
+        }
+
+        .schema-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .schema-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .schema-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-badge {
+            background: #f8f9fa;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+
+        .stat-badge strong {
+            color: #007bff;
+        }
+
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .table-card {
+            background: #fff;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .table-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-color: #007bff;
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f8f9fa;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .table-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .table-description {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            margin: 3px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            transition: background 0.2s ease;
+        }
+
+        .field:hover {
+            background: #f8f9fa;
+        }
+
+        .field-name {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .field-type {
+            color: #6c757d;
+            font-size: 0.75rem;
+        }
+
+        .pk {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+        }
+
+        .fk {
+            background: #d1ecf1;
+            border-left: 3px solid #17a2b8;
+        }
+
+        .uk {
+            background: #f8d7da;
+            border-left: 3px solid #dc3545;
+        }
+
+        .badge {
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 5px;
+        }
+
+        .badge-pk {
+            background: #ffc107;
+            color: #856404;
+        }
+
+        .badge-fk {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .badge-uk {
+            background: #dc3545;
+            color: white;
+        }
+
+        .relations-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .relations-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .relations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 12px;
+        }
+
+        .relation-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #007bff;
+            font-size: 0.85rem;
+        }
+
+        .relation-type {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            background: #007bff;
+        }
+
+        .relation-arrow {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .legend {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            border: 2px solid #e9ecef;
+            z-index: 1000;
+            font-size: 0.8rem;
+        }
+
+        .legend h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0;
+        }
+
+        .legend-box {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+
+        /* Scrollbar personnalisée */
+        .table-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .table-card::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .table-card::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .table-card::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        @media (max-width: 1200px) {
+            .tables-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tables-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .legend {
+                position: static;
+                margin: 20px;
+            }
+            
+            .relations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗄️ Modèle Logique de Données Complet</h1>
+            <p>Système de Surveillance Environnementale Aéroportuaire - Version 4.0</p>
+        </div>
+
+        <div class="schema-tabs">
+            <button class="tab active" onclick="showSchema('airport')">
+                ✈️ AIRPORT
+            </button>
+            <button class="tab" onclick="showSchema('air_quality')">
+                🌍 AIR_QUALITY
+            </button>
+            <button class="tab" onclick="showSchema('acoustique')">
+                🔊 ACOUSTIQUE
+            </button>
+            <button class="tab" onclick="showSchema('analytics')">
+                📊 ANALYTICS
+            </button>
+        </div>
+
+        <div class="schema-content">
+            <!-- SCHÉMA AIRPORT -->
+            <div id="airport" class="schema-section active">
+                <div class="schema-header">
+                    <div class="schema-title">
+                        <span>✈️</span>
+                        <span>Schéma AIRPORT</span>
+                    </div>
+                    <div class="schema-stats">
+                        <span class="stat-badge"><strong>9</strong> Tables</span>
+                        <span class="stat-badge"><strong>14</strong> Relations</span>
+                    </div>
+                </div>
+                
+                <div class="tables-grid">
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🏢 AEROPORT</span>
+                        </div>
+                        <div class="table-description">Référentiel des aéroports</div>
+                        <div class="field pk">
+                            <span class="field-name">id_aeroport</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field uk">
+                            <span class="field-name">code_iata</span>
+                            <span class="field-type">VARCHAR(3)</span>
+                        </div>
+                        <div class="field uk">
+                            <span class="field-name">code_icao</span>
+                            <span class="field-type">VARCHAR(4)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nom_aeroport</span>
+                            <span class="field-type">VARCHAR(200)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">ville</span>
+                            <span class="field-type">VARCHAR(100)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">pays</span>
+                            <span class="field-type">VARCHAR(100)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">coordonnees_gps</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">altitude_m</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">fuseau_horaire</span>
+                            <span class="field-type">VARCHAR(50)</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🏬 TERMINAL</span>
+                        </div>
+                        <div class="table-description">Terminaux passagers</div>
+                        <div class="field pk">
+                            <span class="field-name">id_terminal</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_aeroport</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nom_terminal</span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">capacite_passagers</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">surface_m2</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">coordonnees_gps</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🛫 PISTE</span>
+                        </div>
+                        <div class="table-description">Pistes d'atterrissage</div>
+                        <div class="field pk">
+                            <span class="field-name">id_piste</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_aeroport</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">designation</span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">longueur_m</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">largeur_m</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">orientation_degres</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">coordonnees_debut</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">coordonnees_fin</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">✈️ AERONEF_TYPE</span>
+                        </div>
+                        <div class="table-description">Types d'aéronefs ICAO</div>
+                        <div class="field pk">
+                            <span class="field-name">id_type_aeronef</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field uk">
+                            <span class="field-name">designation_icao</span>
+                            <span class="field-type">VARCHAR(4)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">constructeur</span>
+                            <span class="field-type">VARCHAR(100)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">modele</span>
+                            <span class="field-type">VARCHAR(100)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">categorie_wake</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nombre_moteurs</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">type_moteur</span>
+                            <span class="field-type">VARCHAR(50)</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🔧 MOTEUR_TYPE</span>
+                        </div>
+                        <div class="table-description">Types de moteurs</div>
+                        <div class="field pk">
+                            <span class="field-name">id_moteur</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field uk">
+                            <span class="field-name">designation</span>
+                            <span class="field-type">VARCHAR(50)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">constructeur</span>
+                            <span class="field-type">VARCHAR(50)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">poussee_statique_kn</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">type_moteur</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🔗 AERONEF_MOTEUR</span>
+                        </div>
+                        <div class="table-description">Association aéronef-moteur</div>
+                        <div class="field pk">
+                            <span class="field-name">id_aeronef_moteur</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_type_aeronef</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_moteur</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nombre_moteurs</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🏢 COMPAGNIE</span>
+                        </div>
+                        <div class="table-description">Compagnies aériennes</div>
+                        <div class="field pk">
+                            <span class="field-name">id_compagnie</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field uk">
+                            <span class="field-name">code_iata</span>
+                            <span class="field-type">VARCHAR(2)</span>
+                        </div>
+                        <div class="field uk">
+                            <span class="field-name">code_icao</span>
+                            <span class="field-type">VARCHAR(3)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nom_compagnie</span>
+                            <span class="field-type">VARCHAR(200)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">pays_origine</span>
+                            <span class="field-type">VARCHAR(100)</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">✈️ VOL</span>
+                        </div>
+                        <div class="table-description">Vols opérationnels</div>
+                        <div class="field pk">
+                            <span class="field-name">id_vol</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">numero_vol</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_compagnie</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_type_aeronef</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_aeroport_origine</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_aeroport_destination</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">datetime_depart_prevu</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">datetime_arrivee_prevue</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">statut_vol</span>
+                            <span class="field-type">VARCHAR(50)</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">📊 PHASE_VOL</span>
+                        </div>
+                        <div class="table-description">Phases LTO des vols</div>
+                        <div class="field pk">
+                            <span class="field-name">id_phase</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_vol</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">type_phase</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">datetime_debut</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">datetime_fin</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">duree_minutes</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">altitude_ft</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">position_gps</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relations-container">
+                    <div class="relations-title">
+                        <span>🔗</span>
+                        <span>Relations du schéma AIRPORT</span>
+                    </div>
+                    <div class="relations-grid">
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>AEROPORT <span class="relation-arrow">→</span> TERMINAL</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>AEROPORT <span class="relation-arrow">→</span> PISTE</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">N:M</span>
+                            <span>AERONEF_TYPE <span class="relation-arrow">↔</span> MOTEUR_TYPE</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>COMPAGNIE <span class="relation-arrow">→</span> VOL</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>AERONEF_TYPE <span class="relation-arrow">→</span> VOL</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>AEROPORT <span class="relation-arrow">→</span> VOL (origine)</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>AEROPORT <span class="relation-arrow">→</span> VOL (destination)</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>VOL <span class="relation-arrow">→</span> PHASE_VOL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHÉMA AIR_QUALITY -->
+            <div id="air_quality" class="schema-section">
+                <div class="schema-header">
+                    <div class="schema-title">
+                        <span>🌍</span>
+                        <span>Schéma AIR_QUALITY</span>
+                    </div>
+                    <div class="schema-stats">
+                        <span class="stat-badge"><strong>5</strong> Tables</span>
+                        <span class="stat-badge"><strong>8</strong> Relations</span>
+                    </div>
+                </div>
+                
+                <div class="tables-grid">
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">📡 STATION_MESURE</span>
+                        </div>
+                        <div class="table-description">Stations de surveillance</div>
+                        <div class="field pk">
+                            <span class="field-name">id_station</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_aeroport</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nom_station</span>
+                            <span class="field-type">VARCHAR(100)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">type_station</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">coordonnees_gps</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">polluants_mesures</span>
+                            <span class="field-type">TEXT[]</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">statut_operationnel</span>
+                            <span class="field-type">BOOLEAN</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🌡️ MESURE_QUALITE_AIR</span>
+                        </div>
+                        <div class="table-description">Mesures de polluants</div>
+                        <div class="field pk">
+                            <span class="field-name">id_mesure</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_station</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">timestamp_mesure</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">polluant</span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">valeur_mesure</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">unite_mesure</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">qualite_donnee</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🔥 FACTEUR_EMISSION_ICAO</span>
+                        </div>
+                        <div class="table-description">Facteurs d'émission certifiés</div>
+                        <div class="field pk">
+                            <span class="field-name">id_facteur</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_moteur</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">uid_icao</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">regime_moteur</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">facteur_co2_g_kg</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">facteur_nox_g_kg</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">facteur_pm_g_kg</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">debit_carburant_kg_s</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">💨 EMISSION_CALCULEE</span>
+                        </div>
+                        <div class="table-description">Émissions calculées</div>
+                        <div class="field pk">
+                            <span class="field-name">id_emission</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_vol</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_phase_vol</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">source_emission</span>
+                            <span class="field-type">VARCHAR(30)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">type_polluant</span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">quantite_emise_kg</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">methode_calcul</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">coordonnees_emission</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🌤️ CONDITIONS_METEO</span>
+                        </div>
+                        <div class="table-description">Conditions météorologiques</div>
+                        <div class="field pk">
+                            <span class="field-name">id_meteo</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_aeroport</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">timestamp_observation</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">temperature_celsius</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">humidite_percent</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">vitesse_vent_ms</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">direction_vent_degres</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">pression_hpa</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relations-container">
+                    <div class="relations-title">
+                        <span>🔗</span>
+                        <span>Relations du schéma AIR_QUALITY</span>
+                    </div>
+                    <div class="relations-grid">
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>AEROPORT <span class="relation-arrow">→</span> STATION_MESURE</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>STATION_MESURE <span class="relation-arrow">→</span> MESURE_QUALITE_AIR</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>MOTEUR_TYPE <span class="relation-arrow">→</span> FACTEUR_EMISSION_ICAO</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>VOL <span class="relation-arrow">→</span> EMISSION_CALCULEE</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>PHASE_VOL <span class="relation-arrow">→</span> EMISSION_CALCULEE</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>AEROPORT <span class="relation-arrow">→</span> CONDITIONS_METEO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHÉMA ACOUSTIQUE -->
+            <div id="acoustique" class="schema-section">
+                <div class="schema-header">
+                    <div class="schema-title">
+                        <span>🔊</span>
+                        <span>Schéma ACOUSTIQUE</span>
+                    </div>
+                    <div class="schema-stats">
+                        <span class="stat-badge"><strong>5</strong> Tables</span>
+                        <span class="stat-badge"><strong>7</strong> Relations</span>
+                    </div>
+                </div>
+                
+                <div class="tables-grid">
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">📋 PROFIL_ACOUSTIQUE_AERONEF</span>
+                        </div>
+                        <div class="table-description">Certification acoustique OACI</div>
+                        <div class="field pk">
+                            <span class="field-name">id_profil_acoustique</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_type_aeronef</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">chapitre_bruit</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">niveau_certification_epndb</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">marge_cumulative_epndb</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">bruit_taxi_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">bruit_decollage_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">bruit_montee_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">bruit_approche_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">bruit_atterrissage_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">frequence_dominante_hz</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">coefficient_attenuation</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🎤 STATION_MESURE_BRUIT</span>
+                        </div>
+                        <div class="table-description">Réseau de sonomètres</div>
+                        <div class="field pk">
+                            <span class="field-name">id_station_bruit</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_aeroport</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field uk">
+                            <span class="field-name">code_station</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nom_station</span>
+                            <span class="field-type">VARCHAR(100)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">coordonnees_gps</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">altitude_m</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">zone_reglementaire</span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">environnement_sonore</span>
+                            <span class="field-type">VARCHAR(50)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">seuil_declenchement_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">classe_precision</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nb_habitants_zone</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">📊 MESURE_BRUIT</span>
+                        </div>
+                        <div class="table-description">Mesures acoustiques continues</div>
+                        <div class="field pk">
+                            <span class="field-name">id_mesure_bruit</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_station_bruit</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">timestamp_mesure</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">duree_evenement_s</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">lamax_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">laeq_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">la10_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">la90_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">lden_contribution_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">ln_contribution_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_vol_correlé</span>
+                            <span class="badge badge-fk">FK NULL</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">correlation_certitude</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">type_evenement</span>
+                            <span class="field-type">VARCHAR(30)</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🗺️ ZONE_EXPOSITION_BRUIT</span>
+                        </div>
+                        <div class="table-description">Zones PEB réglementaires</div>
+                        <div class="field pk">
+                            <span class="field-name">id_zone</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_aeroport</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">zone_peb</span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">niveau_exposition_lden_db</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">niveau_exposition_ln_db</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">geometrie_zone</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">surface_hectares</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">population_estimee</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nb_etablissements_sensibles</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">🎯 EMPREINTE_ACOUSTIQUE_CALCULEE</span>
+                        </div>
+                        <div class="table-description">Modélisation ECAC Doc 29</div>
+                        <div class="field pk">
+                            <span class="field-name">id_empreinte</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_vol</span>
+                            <span class="badge badge-fk">FK</span>
+                        </div>
+                        <div class="field fk">
+                            <span class="field-name">id_phase_vol</span>
+                            <span class="badge badge-fk">FK NULL</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">point_calcul</span>
+                            <span class="field-type">GEOMETRY</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">distance_source_m</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">niveau_bruit_dba</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">niveau_bruit_dbc</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">sel_db</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">modele_propagation</span>
+                            <span class="field-type">VARCHAR(50)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">absorption_atmospherique_db</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relations-container">
+                    <div class="relations-title">
+                        <span>🔗</span>
+                        <span>Relations du schéma ACOUSTIQUE</span>
+                    </div>
+                    <div class="relations-grid">
+                        <div class="relation-item">
+                            <span class="relation-type">1:1</span>
+                            <span>AERONEF_TYPE <span class="relation-arrow">→</span> PROFIL_ACOUSTIQUE_AERONEF</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>AEROPORT <span class="relation-arrow">→</span> STATION_MESURE_BRUIT</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>STATION_MESURE_BRUIT <span class="relation-arrow">→</span> MESURE_BRUIT</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">N:1</span>
+                            <span>MESURE_BRUIT <span class="relation-arrow">→</span> VOL (corrélation)</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>AEROPORT <span class="relation-arrow">→</span> ZONE_EXPOSITION_BRUIT</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">1:N</span>
+                            <span>VOL <span class="relation-arrow">→</span> EMPREINTE_ACOUSTIQUE_CALCULEE</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">N:1</span>
+                            <span>EMPREINTE_ACOUSTIQUE_CALCULEE <span class="relation-arrow">→</span> PHASE_VOL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHÉMA ANALYTICS -->
+            <div id="analytics" class="schema-section">
+                <div class="schema-header">
+                    <div class="schema-title">
+                        <span>📊</span>
+                        <span>Schéma ANALYTICS</span>
+                    </div>
+                    <div class="schema-stats">
+                        <span class="stat-badge"><strong>2</strong> Tables</span>
+                        <span class="stat-badge"><strong>Transversal</strong></span>
+                    </div>
+                </div>
+                
+                <div class="tables-grid">
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">📝 AUDIT_LOG</span>
+                        </div>
+                        <div class="table-description">Traçabilité des modifications</div>
+                        <div class="field pk">
+                            <span class="field-name">id_audit</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">table_name</span>
+                            <span class="field-type">VARCHAR(50)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">record_id</span>
+                            <span class="field-type">UUID</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">operation</span>
+                            <span class="field-type">VARCHAR(10)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">old_values</span>
+                            <span class="field-type">JSONB</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">new_values</span>
+                            <span class="field-type">JSONB</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">user_id</span>
+                            <span class="field-type">VARCHAR(100)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">timestamp_operation</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">ip_address</span>
+                            <span class="field-type">INET</span>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <span class="table-name">⚡ PERFORMANCE_CALCUL</span>
+                        </div>
+                        <div class="table-description">Métriques de performance</div>
+                        <div class="field pk">
+                            <span class="field-name">id_performance</span>
+                            <span class="badge badge-pk">PK</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">type_calcul</span>
+                            <span class="field-type">VARCHAR(50)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">timestamp_debut</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">timestamp_fin</span>
+                            <span class="field-type">TIMESTAMP</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">duree_ms</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">nb_records_traites</span>
+                            <span class="field-type">INTEGER</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">statut_calcul</span>
+                            <span class="field-type">VARCHAR(20)</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">memoire_utilisee_mb</span>
+                            <span class="field-type">NUMERIC</span>
+                        </div>
+                        <div class="field">
+                            <span class="field-name">resultats_resume</span>
+                            <span class="field-type">JSONB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relations-container">
+                    <div class="relations-title">
+                        <span>🔗</span>
+                        <span>Relations transversales</span>
+                    </div>
+                    <div class="relations-grid">
+                        <div class="relation-item">
+                            <span class="relation-type">AUDIT</span>
+                            <span>AUDIT_LOG <span class="relation-arrow">←</span> Toutes les tables (triggers)</span>
+                        </div>
+                        <div class="relation-item">
+                            <span class="relation-type">MONITOR</span>
+                            <span>PERFORMANCE_CALCUL <span class="relation-arrow">←</span> Processus de calcul</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <h4>🔑 Légende</h4>
+        <div class="legend-item">
+            <div class="legend-box pk" style="background: #fff3cd;"></div>
+            <span>Clé Primaire (PK)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box fk" style="background: #d1ecf1;"></div>
+            <span>Clé Étrangère (FK)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box uk" style="background: #f8d7da;"></div>
+            <span>Contrainte Unique</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box" style="background: #f8f9fa;"></div>
+            <span>Champ normal</span>
+        </div>
+    </div>
+
+    <script>
+        function showSchema(schemaName) {
+            // Cacher toutes les sections
+            document.querySelectorAll('.schema-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Retirer la classe active de tous les tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Afficher la section sélectionnée
+            document.getElementById(schemaName).classList.add('active');
+            
+            // Activer le tab correspondant
+            event.target.classList.add('active');
+        }
+
+        // Animation d'entrée douce
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.table-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.3s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 30);
+            });
+        });
+    </script>
+</body>
+</html>

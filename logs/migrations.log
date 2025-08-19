@@ -141,3 +141,15 @@ LINE 135:     GET DIAGNOSTICS n = n + ROW_COUNT;
 2025-08-18 15:37:33,158 - WARNING - [WARN] Migrations partiellement appliquees (0/1)
 2025-08-18 15:37:33,159 - ERROR - [ERROR] Erreur lors de l'execution des migrations
 2025-08-18 15:37:33,159 - INFO - [INFO] Connexion fermee
+2025-08-19 02:43:15,443 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-19 02:43:15,455 - INFO - [OK] Table de migration creee/verifiee
+2025-08-19 02:43:15,471 - INFO - [OK] Aucune migration en attente
+2025-08-19 02:43:15,471 - INFO - [OK] Migrations executees avec succes
+2025-08-19 02:43:15,472 - INFO - [INFO] Connexion fermee
+2025-08-19 02:43:40,093 - INFO - [OK] Connexion PostgreSQL etablie
+2025-08-19 02:43:40,094 - INFO - [INFO] Verification integrite base de donnees...
+2025-08-19 02:43:40,117 - INFO - [OK] Schemas trouves: ['analytics', 'air_quality', 'airport']
+2025-08-19 02:43:40,117 - INFO - [OK] Tables trouvees: 15
+2025-08-19 02:43:40,120 - INFO - [OK] Extensions trouvees: ['postgis', 'uuid-ossp']
+2025-08-19 02:43:40,121 - INFO - [OK] Integrite de la base verifiee
+2025-08-19 02:43:40,121 - INFO - [INFO] Connexion fermee
