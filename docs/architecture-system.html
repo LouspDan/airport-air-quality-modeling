@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture - Airport Air Quality Modeling System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+
+        .architecture {
+            position: relative;
+            width: 100%;
+        }
+
+        /* Couches */
+        .layer {
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .layer:nth-child(1) { animation-delay: 0.1s; }
+        .layer:nth-child(2) { animation-delay: 0.3s; }
+        .layer:nth-child(3) { animation-delay: 0.5s; }
+        .layer:nth-child(4) { animation-delay: 0.7s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Sources de données */
+        .data-sources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .source-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .source-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .source-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .source-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .source-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .source-desc {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Flèches */
+        .arrow-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 30px solid #667eea;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* Base de données */
+        .database {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .database::after {
+            content: '🗄️';
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            opacity: 0.3;
+        }
+
+        .database h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .database-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        /* Applications */
+        .applications {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .app-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .app-card:hover::before {
+            left: 100%;
+        }
+
+        .app-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .app-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .app-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Badges */
+        .tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .badge {
+            background: #f0f0f0;
+            color: #666;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Légende */
+        .legend {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .legend-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .data-sources, .applications {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ Architecture Système</h1>
+        <p class="subtitle">Airport Air Quality Modeling System - Data Pipeline & Analytics Platform</p>
+        
+        <div class="architecture">
+            <!-- Couche 1: Sources de données -->
+            <div class="layer">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📊 COUCHE 1 : SOURCES DE DONNÉES</h3>
+                <div class="data-sources">
+                    <div class="source-card">
+                        <div class="source-icon">✈️</div>
+                        <div class="source-title">Trafic Aérien</div>
+                        <div class="source-desc">CSV simulé<br>30 jours • 1000 vols</div>
+                    </div>
+                    <div class="source-card">
+                        <div class="source-icon">🌤️</div>
+                        <div class="source-title">Météo</div>
+                        <div class="source-desc">API simulée<br>T°, vent, pression</div>
+                    </div>
+                    <div class="source-card">
+                        <div class="source-icon">🛩️</div>
+                        <div class="source-title">Aéronefs</div>
+                        <div class="source-desc">ICAO DB<br>Caractéristiques moteurs</div>
+                    </div>
+                    <div class="source-card">
+                        <div class="source-icon">💨</div>
+                        <div class="source-title">Émissions</div>
+                        <div class="source-desc">Facteurs certifiés<br>CO2, NOx, PM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flèche -->
+            <div class="arrow-container">
+                <div class="arrow"></div>
+            </div>
+
+            <!-- Couche 2: Base de données -->
+            <div class="layer">
+                <h3 style="color: #f5576c; margin-bottom: 15px;">🗄️ COUCHE 2 : STOCKAGE & TRAITEMENT</h3>
+                <div class="database">
+                    <h3>
+                        <span>PostgreSQL 15 + PostGIS 3.3</span>
+                    </h3>
+                    <div class="database-features">
+                        <div class="feature">
+                            <div class="feature-title">📁 Schémas Métier</div>
+                            <div class="feature-desc">• airport (infrastructure)<br>• air_quality (mesures)<br>• analytics (KPIs)</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-title">🗺️ Géospatial</div>
+                            <div class="feature-desc">• Zones d'impact<br>• Grilles de calcul<br>• Contours pollution</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-title">⚡ Performance</div>
+                            <div class="feature-desc">• Vues matérialisées<br>• Index GIST/GIN<br>• Partitioning temporel</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-title">🔄 ETL Pipeline</div>
+                            <div class="feature-desc">• Ingestion automatisée<br>• Validation qualité<br>• Historisation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flèche -->
+            <div class="arrow-container">
+                <div class="arrow"></div>
+            </div>
+
+            <!-- Couche 3: Applications -->
+            <div class="layer">
+                <h3 style="color: #667eea; margin-bottom: 15px;">💻 COUCHE 3 : APPLICATIONS & VISUALISATION</h3>
+                <div class="applications">
+                    <div class="app-card">
+                        <div class="app-icon">🐍</div>
+                        <div class="app-title">Python Scripts</div>
+                        <div class="app-desc">
+                            Calculs d'émissions<br>
+                            Pipeline ETL<br>
+                            Génération données
+                        </div>
+                        <div class="tech-badges">
+                            <span class="badge">SQLAlchemy</span>
+                            <span class="badge">Pandas</span>
+                            <span class="badge">NumPy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">📊</div>
+                        <div class="app-title">Streamlit</div>
+                        <div class="app-desc">
+                            Dashboards interactifs<br>
+                            3 vues métier<br>
+                            Temps réel simulé
+                        </div>
+                        <div class="tech-badges">
+                            <span class="badge">Plotly</span>
+                            <span class="badge">Altair</span>
+                            <span class="badge">Folium</span>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">📈</div>
+                        <div class="app-title">Power BI</div>
+                        <div class="app-desc">
+                            Reports exécutifs<br>
+                            KPIs environnementaux<br>
+                            Export PDF
+                        </div>
+                        <div class="tech-badges">
+                            <span class="badge">DAX</span>
+                            <span class="badge">DirectQuery</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Métriques clés -->
+            <div class="layer">
+                <h3 style="color: #f5576c; margin-bottom: 15px;">📊 MÉTRIQUES & PERFORMANCES</h3>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-icon" style="background: #e8f5e9; color: #4caf50;">✓</div>
+                        <span><strong>32k+ enregistrements</strong> traités</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon" style="background: #e3f2fd; color: #2196f3;">🚀</div>
+                        <span><strong>~1000 vols/sec</strong> en calcul</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon" style="background: #fce4ec; color: #e91e63;">📦</div>
+                        <span><strong>14+ tables</strong> structurées</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon" style="background: #f3e5f5; color: #9c27b0;">⚡</div>
+                        <span><strong><100ms</strong> requêtes géo</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon" style="background: #fff3e0; color: #ff9800;">📊</div>
+                        <span><strong>6 polluants</strong> calculés</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon" style="background: #e0f2f1; color: #009688;">🔄</div>
+                        <span><strong>ETL automatisé</strong> quotidien</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
