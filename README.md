@@ -65,6 +65,7 @@ Il combine :
 
 ### **Dashboard Environnemental**
 ![Dashboard Environmental](./docs/screenshots/dashboard-executive-01.png)
+![Dashboard Environmental](./docs/screenshots/dashboard-executive-02.png)
 
 **KPIs Clés Implémentés :**
 - Émissions totales CO2 : 21 539 tonnes (période 30 jours)
@@ -73,6 +74,7 @@ Il combine :
 - Tendances temporelles avec moyennes mobiles
 
 ### **Dashboard Opérationnel**
+![Dashboard Operational](./docs/screenshots/dashboard-operation-01.png)
 ![Dashboard Operational](./docs/screenshots/dashboard-operation-02.png)
 
 **Fonctionnalités :**
