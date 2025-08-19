@@ -1,68 +1,85 @@
 # 🌍 Airport Air Quality Modeling System
 
-> **Système de modélisation et surveillance de la qualité de l'air aéroportuaire**  
-> *Projet portfolio - Démonstration techniques Data Engineering & Analytics*
+> **Système de surveillance environnementale aéroportuaire**  
+> *Proof of Concept - Data Engineering & Analytics appliqués au domaine environnemental*
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-green.svg)](https://postgresql.org)
 [![PostGIS](https://img.shields.io/badge/PostGIS-3.3+-orange.svg)](https://postgis.net)
 [![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://docker.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 🎯 **Objectif du Projet**
+## 🎯 Objectif du Projet
 
-Développement d'un système complet de **modélisation des émissions** et **surveillance de la qualité de l'air** pour un aéroport fictif. Ce projet démontre des compétences en :
+Ce projet est un **Proof of Concept** de modélisation environnementale appliquée au trafic aérien.  
+Il combine :
 
-- **Modélisation de données environnementales**
-- **Calculs d'émissions selon méthodologies ICAO/DEFRA** 
-- **Analyse géospatiale avec PostGIS**
-- **Visualisation de données avec Power BI**
-- **Architecture microservices avec Docker**
+- ✈️ **Trafic aérien & moteurs** (données simulées mais structure réaliste)  
+- 🌍 **Émissions atmosphériques** (CO₂, NOx, particules)  
+- 🔊 **Bruit aéronautique** (structure prête pour Lden / Lnight, isophones simplifiés)  
+- 📊 **Dashboards décisionnels** (vue exécutive & opérationnelle)
 
-## 🏗️ **Architecture du Système**
+👉 Objectif : montrer ma capacité à **structurer des données complexes, concevoir une base PostGIS, automatiser des calculs en Python, et restituer via des dashboards clairs**, dans un contexte proche des missions d’un **chargé d’étude modélisation environnementale**.  
 
-### **Composants Principaux**
+**Limite volontaire** : Les données utilisées sont **simulées** , simplification des modèles acoustiques/atmosphériques.  
+**Valeur ajoutée** : démonstration de compétences Data/BI transférables à un cas métier réel.
 
-| Composant | Technologie | Rôle |
-|-----------|-------------|------|
-| **Base de Données** | PostgreSQL + PostGIS | Stockage données géospatiales et temporelles |
-| **Calculs Émissions** | Python + SQLAlchemy | Algorithmes ICAO pour émissions CO2, NOx, PM |
-| **API REST** | FastAPI + Pydantic | Interface d'interrogation des données |
-| **Visualisation** | Power BI + Streamlit | Dashboards et cartographies interactives |
-| **Cache** | Redis | Optimisation des performances |
 
-## 🌟 **Fonctionnalités Clés**
+## 💡 **Valeur Ajoutée Démontrée**
 
-### ✈️ **Modélisation du Trafic Aérien**
-- Suivi détaillé des vols (phases taxi, décollage, croisière, atterrissage)
-- Base de données des aéronefs avec facteurs d'émission certifiés
-- Calculs de consommation carburant par phase de vol
+### **Réalisations Concrètes**
 
-### 🧪 **Calculs d'Émissions Atmosphériques**
-- **Méthodologies standards** : ICAO, DEFRA, EPA
-- **Polluants calculés** : CO2, NOx, PM10, PM2.5, SOx
-- **Facteurs d'émission** actualisés par type d'aéronef
-- **Validation** avec données de stations de mesure
+| Aspect | Réalisation | Impact |
+|--------|-------------|---------|
+| **Base de données** | Modèle relationnel 14+ tables avec PostGIS | Structure prête pour production |
+| **Pipeline ETL** | Traitement de 30 jours de données simulées | Process automatisé et reproductible |
+| **Dashboards** | 3 vues métier (Exécutif, Opérationnel, Environnemental) | Décision data-driven |
+| **Calculs métier** | Implémentation méthodologie ICAO simplifiée | Base extensible pour calculs complexes |
 
-### 🔊 Simulation du Bruit Aérien (nouveau 🚀)
-- **Méthodologie** : Doc 29 simplifiée  
-- **Indicateurs** : Lden (day-evening-night), **Lnight**  
-- **Génération d’isophones** (contours bruit)  
-- **Export en **PNG / GeoJSON**  
-- **Exemple** :  
-  ![Carte isophones fictifs](outputs/noise/noise_map_example.png)
+### **Métriques du Projet**
+- **32 000+ enregistrements** de vols traités
+- **6 types de polluants** calculés (CO2, NOx, SOx, PM10, PM2.5, CO)
+- **3 dashboards interactifs** avec 15+ KPIs
+- **Couverture de code** : Tests unitaires sur fonctions critiques
 
-### 🗺️ **Analyse Géospatiale**
-- **Cartographie des émissions** par zone aéroportuaire
-- **Modélisation de dispersion** atmosphérique simple
-- **Zones d'influence** et rayons d'impact
-- **Superposition** avec données météorologiques
+## 🏗️ **Architecture Technique**
 
-### 📊 **Surveillance Qualité de l'Air**
-- **Stations de mesure** fixes et mobiles
-- **Monitoring temps réel** des concentrations
-- **Alertes automatiques** en cas de dépassement de seuils
-- **Corrélations** trafic aérien / qualité de l'air
+![Architecture systeme](./docs/Architecure-system.png)
+
+## 📊 **Modèle de Données**
+
+![MLD Schema](./docs/MLD-schema.png)
+
+### **Domaines Fonctionnels**
+- **🛫 AIRPORT** : Infrastructure et mouvements (aéroport, pistes, terminaux, vols)
+- **🌍 AIR_QUALITY** : Mesures et calculs environnementaux
+- **🔊 ACOUSTIQUE** : Structure préparée pour extension bruit
+- **📈 ANALYTICS** : Agrégations et KPIs pour reporting
+
+### **Points Forts du Modèle**
+- **Normalisation 3NF** pour intégrité des données
+- **Géométries PostGIS** pour analyses spatiales
+- **Historisation** des changements (created_at, updated_at)
+- **Extensibilité** : Structure modulaire par domaine
+
+## 🚀 **Résultats et Livrables**
+
+### **Dashboard Environnemental**
+![Dashboard Environmental](./docs/screenshots/dashboard-executive-01.png)
+
+**KPIs Clés Implémentés :**
+- Émissions totales CO2 : 21 539 tonnes (période 30 jours)
+- Top émetteurs par type d'avion (B777, A330, B787)
+- Répartition des polluants (CO2: 89.6%, NOx: 8.7%, autres: 1.7%)
+- Tendances temporelles avec moyennes mobiles
+
+### **Dashboard Opérationnel**
+![Dashboard Operational](./docs/screenshots/dashboard-operation-02.png)
+
+**Fonctionnalités :**
+- Monitoring temps réel (simulation)
+- Analyse par phase de vol (taxi, climb, cruise, descent)
+- Top 10 vols émetteurs avec détails
+- Filtres dynamiques multi-critères
 
 ### 📁 Structure du Repository
 ```
@@ -97,6 +114,8 @@ Développement d'un système complet de **modélisation des émissions** et **su
 │   │   ├── 🖼️ dashboard-executive-02.png
 │   │   ├── 🖼️ dashboard-operation-01.png
 │   │   └── 🖼️ dashboard-operation-02.png
+│   ├── 🌐 architecture-system.html
+│   ├── 🖼️ architecture-system.png
 │   ├── 📕 MLD-schema.pdf
 │   ├── 🖼️ MLD-schema.png
 │   ├── 🌐 data-model-documentation.html
@@ -140,64 +159,122 @@ Développement d'un système complet de **modélisation des émissions** et **su
 └── 📄 requirements.txt
 ```
 ---
-## 📊 Base de données/Modèle logique de donées
 
-Voici une représentation simplifiée du modèle relationnel utilisé :  
+## 🛠️ **Stack Technique Maîtrisée**
 
-![MLD Schema](./docs/MLD-schema.png)
+### **Data Engineering**
+```python
+# Exemple : Pipeline ETL simplifié
+def process_flight_emissions(flight_data):
+    """
+    Pipeline de calcul d'émissions selon méthodologie ICAO
+    """
+    # 1. Extraction des données
+    flights = pd.read_csv(flight_data)
+    
+    # 2. Enrichissement avec facteurs d'émission
+    flights = flights.merge(emission_factors, on='aircraft_type')
+    
+    # 3. Calculs par phase de vol
+    for phase in ['taxi', 'climb', 'cruise', 'descent']:
+        flights[f'co2_{phase}'] = calculate_phase_emissions(
+            flights, phase, 'ICAO'
+        )
+    
+    # 4. Chargement en base
+    flights.to_sql('emissions_result', engine, if_exists='append')
+    
+    return flights
+```
 
-Le projet utilise une base PostgreSQL + PostGIS pour stocker :
-- ✈️ Données avions & moteurs (`aircraft`, `engine`)
-- 🛫 Mouvements et trajectoires (`flight_movement`, `trajectory_point`)
-- 🌍 Grille spatiale & cellules (`grid_cell`)
-- 📈 Résultats calculés : émissions (`emissions_result`), bruit (`noise_result`)
-- 🛰️ Mesures réelles : stations (`station`, `air_quality_measurement`)
+### **Technologies Utilisées**
+- **Backend** : Python 3.11, SQLAlchemy, Pandas, NumPy
+- **Base de données** : PostgreSQL 15 + PostGIS 3.3
+- **Visualisation** : Streamlit, Plotly, Matplotlib
+- **Conteneurisation** : Docker, Docker Compose
+- **Qualité** : Black (formatage), Pytest (tests)
 
-👉 La documentation complète du schéma est disponible ici :  
-[📑 Introspection de la base (db_introspection.md)](docs/db_introspection.md)
+## 📈 **Approche Méthodologique**
 
+### **Calculs d'Émissions Implémentés**
+1. **Base ICAO** : Facteurs d'émission par type d'aéronef
+2. **Cycle LTO** : Landing and Take-Off (< 3000 ft)
+3. **Phases de vol** : Consommation carburant différenciée
+4. **Formule simplifiée** : 
+   ```
+   Émissions (kg) = Consommation_carburant × Facteur_émission × Durée
+   ```
+
+### **Simulation Bruit (POC)**
+- Structure de données préparée
+- Notebook d'exploration (Doc 29 simplifiée)
+- Génération de contours fictifs pour démonstration
+
+## 🎓 **Apprentissages et Perspectives**
+
+### **Compétences Acquises**
+✅ **Modélisation de données** complexes multi-domaines  
+✅ **Implémentation de calculs** selon standards internationaux  
+✅ **Création de dashboards** adaptés aux besoins métier  
+✅ **Architecture scalable** avec Docker et PostgreSQL  
+
+### **Axes d'Amélioration Identifiés**
+- [ ] Approfondissement des méthodologies de dispersion atmosphérique
+- [ ] Intégration de modèles de machine learning pour prédictions
+- [ ] Optimisation des performances pour données temps réel
+- [ ] Extension vers calculs acoustiques complets
+
+## 💻 **Installation et Démonstration**
+
+### **Démarrage Rapide**
 ```bash
-## 🚀 **Démarrage Rapide**
-
-### **Prérequis**
-- Docker & Docker Compose
-- Python 3.11+
-- Git
-
-### **Installation**
-
-
-# 1. Clonage du repository
+# Clonage et installation
 git clone https://github.com/LouspDan/airport-air-quality-modeling.git
 cd airport-air-quality-modeling
 
-# 2. Configuration environnement
-cp .env.example .env
-# Éditer .env si nécessaire
+# Lancement avec Docker
+docker-compose up -d
 
-# 3. Démarrage des services
-docker-compose up -d postgres pgadmin
-docker-compose logs -f postgres
-
-# 4. Installation dépendances Python
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-pip install -r requirements.txt
-
-# 5. Initialisation base de données
-python scripts/setup_database.py --init
-python scripts/generate_sample_data.py
+# Accès aux dashboards
+streamlit run dashboards/streamlit/app.py
 ```
-### 📖 **Références méthodologiques**
 
-- ICAO Engine Emissions Databank – facteurs d’émission (cycle LTO)
-- DEFRA / EPA – équations d’émissions complémentaires
-- ECAC Doc 29 – méthodologie de calcul des isophones bruit
-- ANP (Aircraft Noise & Performance) – paramètres acoustiques avion
-- AEDT – implémentation industrielle Doc29 (référence US)
+### **Données de Démonstration**
+- 30 jours de trafic simulé (1000 vols)
+- 6 types d'aéronefs représentatifs
+- Stations de mesure positionnées stratégiquement
+- Conditions météo variables
 
-### 🚧 Travaux en cours
+## 🤝 **Profil et Contact**
 
-- Ajout d’un module de simulation bruit avancée avec données ANP
-- Développement de la page Streamlit Impacts combinés Air & Bruit
-- Intégration de tests automatiques (pytest) pour validation qualité des données
+### **À Propos**
+Data Engineer avec une forte appétence pour les problématiques environnementales. Ce projet démontre ma capacité à :
+- **Comprendre rapidement** des domaines métier complexes
+- **Traduire des besoins** en solutions techniques
+- **Livrer des outils** orientés valeur business
+
+### **Soft Skills Démontrées**
+- **Autonomie** : Projet développé en auto-formation
+- **Rigueur** : Documentation et tests systématiques  
+- **Adaptabilité** : Application de compétences data à un nouveau domaine
+- **Communication** : Dashboards adaptés à différents publics
+
+### **Contact**
+- **LinkedIn** : [Mon Profil](https://linkedin.com/in/votre-profil)
+- **GitHub** : [LouspDan](https://github.com/LouspDan)
+- **Email** : esaie.lupepele@gmail.com
+
+---
+
+## 📝 **Note Importante**
+
+Ce projet est un **Proof of Concept personnel** développé à des fins de démonstration de compétences. Les données utilisées sont **simulées** et les calculs **simplifiés** par rapport aux méthodologies industrielles complètes. Pour une implémentation en production, une collaboration avec des experts métier (acousticiens, spécialistes qualité de l'air) serait essentielle.
+
+### **Références Méthodologiques**
+- ICAO Annex 16 - Environmental Protection
+- ICAO Doc 9889 - Airport Air Quality Manual
+- ECAC Doc 29 - Méthode de calcul de contours de bruit (structure préparée)
+
+---
+
+*Dernière mise à jour : Août 2025*
